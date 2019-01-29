@@ -1,0 +1,2 @@
+[23-Nov-2018 19:20:40 Etc/GMT] PHP Parse error:  syntax error, unexpected 'else' (T_ELSE) in /home/nisrochaytis/public_html/billing/application/views/nppaddItem.php on line 305
+[27-Nov-2018 07:23:21 Etc/GMT] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/nisrochaytis/public_html/billing/application/views/invoice.php on line 307
