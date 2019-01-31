@@ -36,12 +36,12 @@
                 <div class="login-logo">
                     <a href="index.html">
                         <img class="align-content" style="width:600px;height:150px;" src="<?php echo base_url('images/logonisroch.png'); ?>" alt="">
-                    
+
 					</a>
                 </div>
                 <div class="login-form">
                     <form method="post" action="<?php echo base_url(); ?>AdminPanel/adminloginAction">
-					
+
 					<br>
                         <div class="form-group">
                             <label>Email address</label>
@@ -51,10 +51,10 @@
                             <label>Password</label>
                             <input type="password" name="password" id="password" class="form-control" placeholder="Password">
                         </div>
-                        
+
                         <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30" style="background-color:#40ff00;">Sign in</button>
-                        
-                        
+
+
                     </form>
                 </div>
             </div>
