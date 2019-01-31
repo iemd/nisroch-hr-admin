@@ -44,6 +44,9 @@
 
 					<br>
                         <div class="form-group">
+                        <?php echo $this->session->flashdata('message'); ?>
+                        </div>
+                        <div class="form-group">
                             <label>Email address</label>
                             <input type="email" name="username" id="username" class="form-control" placeholder="Email">
                         </div>

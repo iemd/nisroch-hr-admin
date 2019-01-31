@@ -17,23 +17,23 @@
                               <div class="col-md-6">
 
                           <div class="row form-group">
-                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Name</label></div>
-                            <div class="col-12 col-md-9"><input type="text" id="name" name="name" placeholder="Staff Name" class="form-control"></div>
+                            <div class="col col-md-4"><label for="text-input" class=" form-control-label">Name</label></div>
+                            <div class="col-12 col-md-8"><input type="text" id="name" name="name" placeholder="Staff Name" class="form-control"></div>
                           </div>
 
 
 						   <div class="row form-group">
-                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Email</label></div>
-                            <div class="col-12 col-md-9"><input type="text" id="email" name="email" placeholder="Enter Email Id" class="form-control"></div>
+                            <div class="col col-md-4"><label for="text-input" class=" form-control-label">Email</label></div>
+                            <div class="col-12 col-md-8"><input type="text" id="email" name="email" placeholder="Enter Email Id" class="form-control" required=""></div>
                           </div>
 
 						  <div class="row form-group">
-                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Password</label></div>
-                            <div class="col-12 col-md-9"><input type="text" id="Password" name="Password" placeholder="Password" class="form-control"></div>
+                            <div class="col col-md-4"><label for="text-input" class=" form-control-label">Password</label></div>
+                            <div class="col-12 col-md-8"><input type="text" id="Password" name="Password" placeholder="Password" class="form-control" required=""></div>
                           </div>
                           <div class="row form-group">
-                              <div class="col col-md-3"><label for="text-input" class=" form-control-label">Date of Joining</label></div>
-                              <div class="col-12 col-md-9"><input type="text" id="doj" name="doj" placeholder="YYYY-MM-DD" class="form-control"></div>
+                              <div class="col col-md-4"><label for="text-input" class=" form-control-label">Date of Joining</label></div>
+                              <div class="col-12 col-md-8"><input type="text" id="doj" name="doj" placeholder="YYYY-MM-DD" class="form-control"></div>
                           </div>
 
                               </div><!-- /col-md-6 -->
@@ -42,17 +42,17 @@
 
 
 						         <div class="row form-group">
-                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Number</label></div>
-                            <div class="col-12 col-md-9"><input type="number" id="number" name="number" placeholder="Contact Number" class="form-control"></div>
+                            <div class="col col-md-4"><label for="text-input" class=" form-control-label">Number</label></div>
+                            <div class="col-12 col-md-8"><input type="number" id="number" name="number" placeholder="Contact Number" class="form-control"></div>
                       </div>
                       <div class="row form-group">
-                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Address</label></div>
-                            <div class="col-12 col-md-9"><input type="text" id="address" name="address" placeholder="Address" class="form-control"></div>
+                            <div class="col col-md-4"><label for="text-input" class=" form-control-label">Address</label></div>
+                            <div class="col-12 col-md-8"><input type="text" id="address" name="address" placeholder="Address" class="form-control"></div>
                       </div>
 
                         <div class="row form-group">
-                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Designation</label></div>
-                            <div class="col-12 col-md-9">
+                            <div class="col col-md-4"><label for="text-input" class=" form-control-label">Designation</label></div>
+                            <div class="col-12 col-md-8">
                                 <select name="designationid" class="form-control" required="">
                                     <option value="" selected="" disabled="">--Select Designation--</option>
                                     <?php
@@ -113,7 +113,7 @@
                         <div class="card-header">
                             <strong class="card-title">Staff Details</strong>
                         </div>
-						<?php echo $this->session->flashdata('message');  ?>
+						<?php //echo $this->session->flashdata('message');  ?>
                         <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                     <thead>
