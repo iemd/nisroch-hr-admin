@@ -41,7 +41,7 @@ class Staff extends CI_Controller {
 
 		$this->load->model('DataModel');
 		$data['username'] = $this->input->post('email');
-		if(!$this->DataModel->adminEmailCheck($data['username'])){
+		if(!$this->DataModel->staffEmailCheck($data['username'])){
 			$data['name'] = $this->input->post('name');
 			$data['password'] = md5($this->input->post('Password'));
 			$data['type'] = "Staff";
@@ -49,7 +49,8 @@ class Staff extends CI_Controller {
 			$data['address'] = $this->input->post('address');
 			$data['designationid'] = $this->input->post('designationid');
 			$data['doj'] = $this->input->post('doj');
-			$insert =  $this->db->insert('admin',$data);
+			$data['created_by'] = 'HR';
+			$insert =  $this->db->insert('staff',$data);
 			if($insert)
 			{
 				$message = $this->session->set_flashdata('message', '1 Staff successfully added');

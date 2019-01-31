@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="<?php echo base_url('assets/css/cs-skin-elastic.css'); ?>">
     <!-- <link rel="stylesheet" href="assets/css/bootstrap-select.less"> -->
     <link rel="stylesheet" href="<?php echo base_url('assets/scss/style.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.timepicker.min.css'); ?>">
+    <link rel="stylesheet" href="<?php echo base_url('assets/css/jquery-ui.min.css'); ?>">
     <link href="<?php echo base_url('assets/css/lib/vector-map/jqvmap.min.css'); ?>" rel="stylesheet">
     <link rel="stylesheet" href="<?php echo base_url('assets/css/dcalendar.picker.css'); ?>">
 

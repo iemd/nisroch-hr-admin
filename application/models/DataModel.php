@@ -159,7 +159,12 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				return $result;
 			}
+			public function invoiceUpdate($dist_id, $data)
+				{
+					$this->db->where('dist_id', $dist_id);
+					return $this->db->update('distributor', $data);
 
+				}
 		public function invoiceprintdetails($bill_id)
 			{
 				$this->db->select('*');
@@ -244,7 +249,7 @@ class DataModel extends CI_Model
 		public function distributorlist()
 			{
 				$this->db->select('*');
-				$this->db->from('staff_distributor');
+				$this->db->from('distributor');
 				$query = $this->db->get();
 				$result = $query->result_array();
 				return $result;
@@ -344,7 +349,7 @@ class DataModel extends CI_Model
 			{
 				$this->db->select('*');
 				//$this->db->where('type', 'Staff');
-				$this->db->from('admin');
+				$this->db->from('staff');
 				$query = $this->db->get();
 				$result = $query->result_array();
 				return $result;
@@ -354,7 +359,7 @@ class DataModel extends CI_Model
 			{
 				$this->db->select('*');
 				$this->db->where('ID',$staff_id);
-				$this->db->from('admin');
+				$this->db->from('staff');
 				$query = $this->db->get();
 				//print $this->db->last_query();die;
 				$result = $query->result_array();
@@ -364,14 +369,14 @@ class DataModel extends CI_Model
 		public function updatestaff($staff_id, $data)
 			{
 				$this->db->where('ID', $staff_id);
-				return $this->db->update('admin', $data);
+				return $this->db->update('staff', $data);
 
 			}
 
 		public function deleteStaff($staff_id)
 			{
 				$whereArray = array("id"=>$staff_id);
-				$query = $this->db->delete('admin',$whereArray);
+				$query = $this->db->delete('staff',$whereArray);
 				if ($query) {
 					return true;
 				} else {
@@ -449,10 +454,10 @@ class DataModel extends CI_Model
 						return false;
 					}
 				}
-				public function adminEmailCheck($email)
+				public function staffEmailCheck($email)
 				{
 						$this->db->where('username',$email);
-						$query = $this->db->get('admin');
+						$query = $this->db->get('staff');
 						if ($query->num_rows() > 0){
 							return true;
 							}
@@ -460,6 +465,7 @@ class DataModel extends CI_Model
 								return false;
 							}
 				}
+
 		public function getCategory($prod_id=null)
 			{
 				$this->db->select('*');
@@ -610,7 +616,7 @@ class DataModel extends CI_Model
 
 		public function authenti($username,$password)
 			{
-				$array = array("username"=>$username,"password"=>md5($password),"designationid"=>"2");
+				$array = array("username"=>$username,"password"=>md5($password));
 				$query = $this->db->get_where('admin',$array);
 				//echo $this->db->last_query();
 
@@ -618,7 +624,7 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				//print_r($result); die;
 				if($count > 0){
-					$userdetails = array("ID"=>$result[0]['ID'],'loggedIn'=>true,'type'=>'Staff');
+					$userdetails = array("ID"=>$result[0]['ID'],'loggedIn'=>true,'type'=>'Admin');
 					$this->session->set_userdata($userdetails);
 				}else{
 					$userdetails = array("ID"=>'','loggedIn'=>false, 'type'=>'');
