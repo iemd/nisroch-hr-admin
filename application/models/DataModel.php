@@ -616,7 +616,7 @@ class DataModel extends CI_Model
 
 		public function authenti($username,$password)
 			{
-				$array = array("username"=>$username,"password"=>md5($password));
+				$array = array("username"=>$username,"password"=>md5($password),"type"=>'HR');
 				$query = $this->db->get_where('admin',$array);
 				//echo $this->db->last_query();
 
@@ -624,7 +624,7 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				//print_r($result); die;
 				if($count > 0){
-					$userdetails = array("ID"=>$result[0]['ID'],'loggedIn'=>true,'type'=>'Admin');
+					$userdetails = array("ID"=>$result[0]['ID'],'loggedIn'=>true,'type'=>'HR');
 					$this->session->set_userdata($userdetails);
 				}else{
 					$userdetails = array("ID"=>'','loggedIn'=>false, 'type'=>'');
