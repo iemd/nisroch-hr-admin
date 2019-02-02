@@ -265,8 +265,17 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				return $result;
 			}
-
-		public function ledgerprint($bill_id=null)
+			public function viewdistributor($dist_id=null)
+			{
+					$this->db->select('*');
+					$this->db->where('dist_id',$dist_id);
+					$this->db->from('staff_distributor');
+					$query = $this->db->get();
+					//print $this->db->last_query();die;
+					$result = $query->result_array();
+					return $result;
+			}
+			public function ledgerprint($bill_id=null)
 			{
 				$this->db->select('*');
 				$this->db->where('billid',$bill_id);
@@ -333,7 +342,12 @@ class DataModel extends CI_Model
 				return $this->db->update('distributor', $data);
 
 			}
+		 public function approvedistributor($dist_id, $data)
+			{
+					$this->db->where('dist_id', $dist_id);
+					return $this->db->update('staff_distributor', $data);
 
+			}
 		public function deleteDistributor($dist_id)
 			{
 				$whereArray = array("dist_id"=>$dist_id);
@@ -354,7 +368,24 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				return $result;
 			}
-
+			public function StaffOrderRequest()
+				{
+					$this->db->select('*');
+					//$this->db->where('type', 'Staff');
+					$this->db->from('staff_order_request');
+					$query = $this->db->get();
+					$result = $query->result_array();
+					return $result;
+				}
+				public function StaffDistributorRequest()
+					{
+						$this->db->select('*');
+						//$this->db->where('type', 'Staff');
+						$this->db->from('staff_distributor');
+						$query = $this->db->get();
+						$result = $query->result_array();
+						return $result;
+					}
 		public function editstaff($staff_id=null)
 			{
 				$this->db->select('*');

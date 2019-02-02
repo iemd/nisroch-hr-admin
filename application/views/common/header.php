@@ -52,11 +52,12 @@
                     </li>
                     <h3 class="menu-title">STAFF (HR)</h3><!-- /.menu-title -->
                     <li><a href="<?php echo base_url('Staff/'); ?>"> <i class="menu-icon fa fa-laptop"></i>View Staff</a></li>
+                    <li><a href="<?php echo base_url('DistributorRequest/'); ?>"> <i class="menu-icon fa fa-users"></i>View Distributor Request</a></li>
                     <li><a href="<?php echo base_url('AccountDetail/'); ?>"> <i class="menu-icon fa fa-users"></i>Account Detail</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-bus"></i>View Today Work Report</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-bus"></i>Assign Work</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-group"></i>View Dealer</a></li>
-                    <li><a href="#"> <i class="menu-icon fa fa-users"></i>View Order</a></li>
+                    <li><a href="<?php echo base_url('OrderRequest/'); ?>"> <i class="menu-icon fa fa-users"></i>View Order Request</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-bus"></i>Generate Bill</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-bus"></i>Inventory View</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-group"></i>Ledger (Dealer)</a></li>
