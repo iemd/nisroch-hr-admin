@@ -269,7 +269,7 @@ class DataModel extends CI_Model
 			{
 					$this->db->select('*');
 					$this->db->where('dist_id',$dist_id);
-					$this->db->from('staff_distributor');
+					$this->db->from('distributor');
 					$query = $this->db->get();
 					//print $this->db->last_query();die;
 					$result = $query->result_array();
@@ -345,7 +345,7 @@ class DataModel extends CI_Model
 		 public function approvedistributor($dist_id, $data)
 			{
 					$this->db->where('dist_id', $dist_id);
-					return $this->db->update('staff_distributor', $data);
+					return $this->db->update('distributor', $data);
 
 			}
 		public function deleteDistributor($dist_id)
@@ -380,8 +380,9 @@ class DataModel extends CI_Model
 				public function StaffDistributorRequest()
 					{
 						$this->db->select('*');
-						//$this->db->where('type', 'Staff');
-						$this->db->from('staff_distributor');
+						$this->db->where('created_by !=', 0);
+						$this->db->where('created_by !=', -1);
+						$this->db->from('distributor');
 						$query = $this->db->get();
 						$result = $query->result_array();
 						return $result;

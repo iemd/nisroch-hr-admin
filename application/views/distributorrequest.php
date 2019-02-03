@@ -19,6 +19,8 @@
             						<th>Date</th>
             						<th>Location</th>
                         <th>Status</th>
+                        <th>Created By</th>
+                        <th>Approved By</th>
             						<th>Action</th>
                       </tr>
                     </thead>
@@ -36,6 +38,13 @@
               <button name="reject" class="btn btn-danger btn-sm" id="cancel">Pending</button>
             <?php endif; ?>
             </td>
+            <td>
+              <?php if($row['created_by'] == 0){echo "Admin";}
+                      else if($row['created_by'] == -1){echo "HR";}
+                      else{echo "Staff";}
+               ?>
+            </td>
+            <td><?php echo $row['approved_by']; ?></td>
         <td>
           <a class="btn btn-primary btn-sm" href="<?php echo base_url('DistributorRequest/viewDistibutor/'.$row['dist_id']); ?>"><i class="fa fa-eye" ></i>&nbsp;View</a>
         </td>
