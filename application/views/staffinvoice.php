@@ -10,44 +10,46 @@
                 <div class="col-md-12">
                     <div class="card" style="background-color:#95ecd4;">
                         <div class="card-header">
-                            <strong class="card-title">Account Detail</strong>
+                            <strong class="card-title">STAFF INVOICES</strong>
                         </div>
 						<?php echo $this->session->flashdata('message');  ?>
-                        <div class="card-body">
+      <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                     <thead>
                       <tr>
-                        <th>Staff Name</th>
-                        <th>Email</th>
-						<th>Number</th>
-            <th>Total Distributor</th>
-            <th>Total Invoice</th>
-						<th>Address</th>
-						<th>Date of Joining</th>
+                        <th>Invoice</th>
+                        <th>Date</th>
+						<th>Product Type</th>
+            <th>Payable Amount</th>
+						<th>Grand Total</th>
+            <th>Order Status</th>
 
                       </tr>
                     </thead>
                     <tbody>
-					<?php
-           $i=0;
-           foreach($StaffDetails as $row) { ?>
+					<?php foreach($staffinvoice as $row) { ?>
                       <tr>
 					  <?php //print_r($row);die; ?>
-                        <td><?php echo $row['name']; ?></td>
-
-						<td><?php echo $row['username']; ?></td>
-						<td><?php echo $row['number']; ?></td>
-            <td><a class="btn btn-success btn-sm" href="<?php echo base_url('AccountDetail/viewDistibutor/'.$row['ID']); ?>"><?php echo count($StaffTotalDistributor[$i]); ?></a></td>
-            <td><a class="btn btn-success btn-sm" href="<?php echo base_url('AccountDetail/viewInvoice/'.$row['ID']); ?>"><?php echo count($StaffTotalInvoice[$i]); ?></a></td>
-						<td><?php echo $row['address']; ?></td>
-          	<td><?php echo $row['doj']; ?></td>
-
-          </tr>
-					<?php $i++; } ?>
+            <td><?php echo $row['Invoice']; ?></td>
+						<td><?php echo $row['date']; ?></td>
+            <td><?php echo $row['ProductType']; ?></td>
+						<td><?php echo $row['payable_amount']; ?></td>
+            <td><?php echo $row['grandtotal']; ?></td>
+            <td><?php if($row['order_status'] == 1): ?>
+              <button name="approve" class="btn btn-success btn-sm" id="approve">Approved</button>
+            <?php else: ?>
+              <button name="reject" class="btn btn-danger btn-sm" id="cancel">Pending</button>
+            <?php endif; ?>
+            </td>
+                      </tr>
+					<?php } ?>
 
                     </tbody>
                   </table>
                         </div>
+                        <div class="card-footer" style="background-color:#95ecd4;text-align:center;">
+                    <a class="btn btn-danger btn-sm" href="<?php echo base_url('AccountDetail'); ?>">Back</a>
+              </div>
                     </div>
                 </div>
 

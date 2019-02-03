@@ -24,11 +24,32 @@ class AccountDetail extends CI_Controller {
 
      $this->load->model('DataModel');
      $data['StaffDetails'] = $this->DataModel->StaffDetails();
+     foreach($data['StaffDetails'] as $row){
+        $totalDistributor[]= $this->DataModel->StaffTotalDistributor($row['ID']);
+     }
+     $data['StaffTotalDistributor'] = $totalDistributor;
+     foreach($data['StaffDetails'] as $row){
+        $totalInvoice[]= $this->DataModel->StaffTotalInvoice($row['ID']);
+     }
+     $data['StaffTotalInvoice'] = $totalInvoice;
      $this->load->view('common/header');
      $this->load->view('accountdetail',$data);
    }
-
-
-
+   public function viewDistibutor($staff_id = null)
+   {
+     $this->load->model('DataModel');
+     $data['staffdistributor'] = $this->DataModel->StaffDistributor($staff_id);
+     //print_r($data['distributorlist']);die;
+     $this->load->view('common/header');
+     $this->load->view('staffdistributor', $data);
+   }
+   public function viewInvoice($staff_id = null)
+   {
+     $this->load->model('DataModel');
+     $data['staffinvoice'] = $this->DataModel->StaffInvoice($staff_id);
+     //print_r($data['distributorlist']);die;
+     $this->load->view('common/header');
+     $this->load->view('staffinvoice', $data);
+   }
 
 }

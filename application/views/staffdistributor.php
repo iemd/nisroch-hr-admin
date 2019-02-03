@@ -10,44 +10,45 @@
                 <div class="col-md-12">
                     <div class="card" style="background-color:#95ecd4;">
                         <div class="card-header">
-                            <strong class="card-title">Account Detail</strong>
+                            <strong class="card-title">STAFF DISTRIBUTORS</strong>
                         </div>
 						<?php echo $this->session->flashdata('message');  ?>
-                        <div class="card-body">
+      <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                     <thead>
                       <tr>
-                        <th>Staff Name</th>
-                        <th>Email</th>
-						<th>Number</th>
-            <th>Total Distributor</th>
-            <th>Total Invoice</th>
-						<th>Address</th>
-						<th>Date of Joining</th>
+                        <th>Dist Name</th>
+                        <th>Date</th>
+						<th>Location</th>
+            <th>Status</th>
+						<th>Mobile No.</th>
 
                       </tr>
                     </thead>
                     <tbody>
-					<?php
-           $i=0;
-           foreach($StaffDetails as $row) { ?>
+					<?php foreach($staffdistributor as $row) { ?>
                       <tr>
 					  <?php //print_r($row);die; ?>
                         <td><?php echo $row['name']; ?></td>
 
-						<td><?php echo $row['username']; ?></td>
-						<td><?php echo $row['number']; ?></td>
-            <td><a class="btn btn-success btn-sm" href="<?php echo base_url('AccountDetail/viewDistibutor/'.$row['ID']); ?>"><?php echo count($StaffTotalDistributor[$i]); ?></a></td>
-            <td><a class="btn btn-success btn-sm" href="<?php echo base_url('AccountDetail/viewInvoice/'.$row['ID']); ?>"><?php echo count($StaffTotalInvoice[$i]); ?></a></td>
-						<td><?php echo $row['address']; ?></td>
-          	<td><?php echo $row['doj']; ?></td>
-
-          </tr>
-					<?php $i++; } ?>
+						<td><?php echo $row['created_at']; ?></td>
+						<td><?php echo $row['City']; ?></td>
+            <td><?php if($row['status'] == 1): ?>
+              <button name="approve" class="btn btn-success btn-sm" id="approve">Approved</button>
+            <?php else: ?>
+              <button name="reject" class="btn btn-danger btn-sm" id="cancel">Not Approved</button>
+            <?php endif; ?>
+            </td>
+            <td><?php echo $row['number']; ?></td>
+                      </tr>
+					<?php } ?>
 
                     </tbody>
                   </table>
                         </div>
+                        <div class="card-footer" style="background-color:#95ecd4;text-align:center;">
+                    <a class="btn btn-danger btn-sm" href="<?php echo base_url('AccountDetail'); ?>">Back</a>
+              </div>
                     </div>
                 </div>
 

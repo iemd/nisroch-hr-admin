@@ -368,6 +368,24 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				return $result;
 			}
+			public function StaffTotalDistributor($staff_id = null)
+				{
+					$this->db->select('*');
+					$this->db->where('created_by', $staff_id);
+					$this->db->from('distributor');
+					$query = $this->db->get();
+					$result = $query->result_array();
+					return $result;
+				}
+				public function StaffTotalInvoice($staff_id = null)
+					{
+						$this->db->select('*');
+						$this->db->where('created_by', $staff_id);
+						$this->db->from('billing');
+						$query = $this->db->get();
+						$result = $query->result_array();
+						return $result;
+					}
 			public function StaffOrderRequest()
 				{
 					$this->db->select('*');
@@ -387,6 +405,24 @@ class DataModel extends CI_Model
 						$result = $query->result_array();
 						return $result;
 					}
+					public function StaffDistributor($staff_id)
+						{
+							$this->db->select('*');
+							$this->db->where('created_by', $staff_id);
+							$this->db->from('distributor');
+							$query = $this->db->get();
+							$result = $query->result_array();
+							return $result;
+						}
+				public function StaffInvoice($staff_id)
+				{
+								$this->db->select('*');
+								$this->db->where('created_by', $staff_id);
+								$this->db->from('billing');
+								$query = $this->db->get();
+								$result = $query->result_array();
+								return $result;
+				}
 		public function editstaff($staff_id=null)
 			{
 				$this->db->select('*');
