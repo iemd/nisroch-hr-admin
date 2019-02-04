@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <div class="card" style="background-color:#95ecd4;">
                         <div class="card-header">
-                            <strong class="card-title">ORDER REQUESTS</strong>
+                            <strong class="card-title">STAFF ORDER REQUESTS</strong>
                         </div>
 						<?php echo $this->session->flashdata('message');  ?>
                         <div class="card-body">
@@ -31,7 +31,7 @@
 					<?php foreach($StaffOrderRequest as $row) { ?>
                       <tr>
 					  <?php //print_r($row);die; ?>
-            <td><?php echo $row['order_id']; ?></td>
+            <td><?php echo $row['bill_id']; ?></td>
 						<td><?php echo $row['Invoice']; ?></td>
 						<td><?php echo $row['date']; ?></td>
 						<td><?php echo $row['Distributor_id']; ?></td>

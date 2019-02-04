@@ -389,8 +389,9 @@ class DataModel extends CI_Model
 			public function StaffOrderRequest()
 				{
 					$this->db->select('*');
-					//$this->db->where('type', 'Staff');
-					$this->db->from('staff_order_request');
+					$this->db->where('created_by !=', 0);
+					$this->db->where('created_by !=', -1);
+					$this->db->from('billing');
 					$query = $this->db->get();
 					$result = $query->result_array();
 					return $result;

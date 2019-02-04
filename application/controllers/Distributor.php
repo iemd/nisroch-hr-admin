@@ -27,6 +27,7 @@ class Distributor extends CI_Controller {
 	public function CreateDistibutor()
 	{
 		$data['name'] = $this->input->post('name');
+		$data['bcode'] = $this->input->post('BuyerCode');
 		$data['State'] = $this->input->post('State');
 		$data['City'] = $this->input->post('City');
 		$data['Pincode'] = $this->input->post('Pincode');
@@ -37,7 +38,17 @@ class Distributor extends CI_Controller {
 		$data['pos'] = $this->input->post('pos');
 		$data['Destination'] = $this->input->post('Destination');
 		$data['pnumber'] = $this->input->post('pnumber');
-		$insert =  $this->db->insert('staff_distributor',$data);
+		$data['npp'] = $this->input->post('npp');
+		$data['nbp'] = $this->input->post('nbp');
+		$data['nppLimit'] = $this->input->post('nppLimit');
+		$data['nbpLimit'] = $this->input->post('nbpLimit');
+		$data['currentNpp'] = $this->input->post('nppLimit');
+		$data['currentNbp'] = $this->input->post('nbpLimit');
+		$data['status'] = 1;
+		$data['created_by'] = -1;
+		$data['approved_by'] = 'HR';
+
+		$insert =  $this->db->insert('distributor',$data);
 		if($insert)
 		{
 			$message = $this->session->set_flashdata('message', '1 Distributor successfully added');
@@ -176,6 +187,9 @@ class Distributor extends CI_Controller {
 		$data['nbpLimit'] = $this->input->post('nbpLimit');
 		$data['currentNpp'] = $this->input->post('nppLimit');
 		$data['currentNbp'] = $this->input->post('nbpLimit');
+		$data['status'] = 1;
+		$data['created_by'] = -1;
+		$data['approved_by'] = 'HR';
 
 		$update = $this->DataModel->updatedistributor($dist_id, $data);
 		if($update){

@@ -5,10 +5,11 @@
             <div class="animated fadeIn">
                 <div class="row">
                  <form action="<?php echo base_url('distributor/CreateDistibutor/'); ?>" method="post" enctype="multipart/form-data" class="form-horizontal"><form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+
                   <div class="col-lg-12">
                     <div class="card" style="background-color:#95ecd4;">
                       <div class="card-header">
-                        <strong>Add Distributor</strong>
+                        <strong>ADD DISTRIBUTOR</strong>
 						<h4 style="color:green;"><?php echo $this->session->flashdata('message'); ?></h4>
                       </div>
                       <div class="card-body card-block">
@@ -16,6 +17,13 @@
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">Name</label></div>
                             <div class="col-12 col-md-9"><input type="text" id="name" name="name" placeholder="Distributor Name" class="form-control"></div>
                           </div>
+
+						  <div class="row form-group">
+                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Buyer Code</label></div>
+                            <div class="col-12 col-md-9"><input type="text" id="BuyerCode" name="BuyerCode" placeholder="Buyer Code" class="form-control"></div>
+                          </div>
+
+
 						  <div class="row form-group">
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">Address</label></div>
                             <div class="col-12 col-md-3"><input type="text" id="State" name="State" placeholder="State" class="form-control"></div>
@@ -27,36 +35,69 @@
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">Delivery Address</label></div>
                             <div class="col-12 col-md-9"><input type="text" id="DAddress" name="DAddress" placeholder="Enter Delivery Address" class="form-control"></div>
                           </div>
+
+
 						   <div class="row form-group">
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">Email Id</label></div>
                             <div class="col-12 col-md-9"><input type="text" id="email" name="email" placeholder="Enter Email Id" class="form-control"></div>
                           </div>
+
+
 						   <div class="row form-group">
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">Contact Number</label></div>
                             <div class="col-12 col-md-9"><input type="number" id="number" name="number" placeholder="Contact Number" class="form-control"></div>
                           </div>
+
 						<div class="row form-group">
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">GSTIN Number</label></div>
                             <div class="col-12 col-md-9"><input type="text" id="gst" name="gst" placeholder="GST Number" class="form-control"></div>
                           </div>
+
+
 						<div class="row form-group">
                             <div class="col col-md-3"><label for="text-input" class=" form-control-label">Place | Dest | Pl No</label></div>
                             <div class="col-12 col-md-3"><input type="text" id="pos" name="pos" placeholder="Place of Supply" class="form-control"></div>
 							<div class="col-12 col-md-3"><input type="text" id="Destination" name="Destination" placeholder="Enter Destination" class="form-control"></div>
 							<div class="col-12 col-md-3"><input type="text" id="pnumber" name="pnumber" placeholder="Enter PL Number" class="form-control"></div>
                           </div>
+
+						  <div class="row form-group">
+                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Create Code</label></div>
+                            <div class="col-12 col-md-5"><input type="text" id="npp" name="npp" value="NPP-<?php echo (rand(100,9999)); ?>" class="form-control"></div>
+							<div class="col-12 col-md-4"><input type="text" id="nbp" name="nbp" value="NBP-<?php echo (rand(100,9999)); ?>" class="form-control"></div>
+
+                          </div>
+
+
+						  <div class="row form-group">
+                            <div class="col col-md-3"><label for="text-input" class=" form-control-label">Create Limit</label></div>
+                            <div class="col-12 col-md-5"><input type="text" name="nppLimit" placeholder="Enter Npp Limit" class="form-control"></div>
+							<div class="col-12 col-md-4"><input type="text" name="nbpLimit" placeholder="Enter Nbp Limit" class="form-control"></div>
+
+                          </div>
+
+
 						  <div class="card-footer" style="background-color:#95ecd4;">
+
 								<button type="submit" class="btn btn-primary btn-sm">
 								  <i class="fa fa-dot-circle-o"></i> Create Distributor
 								</button>
+
 							  </div>
+
                       </div>
+
                     </div>
+
                   </div>
                  </form>
+
             </div><!-- .animated -->
         </div><!-- .content -->
+
+
     </div><!-- /#right-panel -->
+
     <!-- Right Panel -->
 <?php } else { ?>
 
@@ -68,6 +109,7 @@
     <script src="assets/js/popper.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
+
 
 </body>
 </html>

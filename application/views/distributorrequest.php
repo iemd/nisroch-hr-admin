@@ -7,7 +7,7 @@
                 <div class="col-md-12">
                     <div class="card" style="background-color:#95ecd4;">
                         <div class="card-header">
-                            <strong class="card-title">DISTRIBUTOR REQUESTS</strong>
+                            <strong class="card-title">STAFF DISTRIBUTOR REQUESTS</strong>
                             	<h4 style="color:green;"><?php echo $this->session->flashdata('message'); ?></h4>
                         </div>
 						            <div class="card-body">
