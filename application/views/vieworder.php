@@ -37,39 +37,73 @@
                       <div class="progress mb-2" style="height: 3px;">
                           <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
-                      <div class='table-responsive'>
+                      <div class='table-responsive'><!--cart products-->
                   		<table id='example1' class='table table-bordered table-striped'>
                   					<thead>
                   						<tr>
                   						<th>Product Name</th>
                   						<th>Qty</th>
                               <th>Price</th>
-                              <th>Sub Total</th>
+                              <th>Action</th>
                   						</tr>
-                              <tr class='success'>
-                      				<td>SIGNET(20MLX250)</td>
-                      					<td>1</td>
+                            </thead>
+                          	<tbody>
+                              <tr id="cartproduct" class='success'>
+                      				  <td>
+                                  <input type="hidden" id="prod_id" name="prod_id" value="<?php //echo $row['ProductType']; ?>" class="form-control" >
+                                  <input type="text" id="prod_name" name="prod_name" value="SIGNET(20MLX250)" class="form-control" readonly>
+                               </td>
+                      					<td><input type="text" id="qty" name="qty" value="1" size="1" maxlength="2"  class="form-control" required=""></td>
                                 <td>5300</td>
-                                <td>5300</td>
+
+                                <td><a href="#"><i class="fa fa-trash" style="font-size:18px;color:red"></i></a></td>
                       				</tr>
-                              <tr class='success'>
-                      				<td>SIGNET(20MLX250)</td>
-                                 <td>2</td>
-                                 <td>5300</td>
-                      					 <td>10600</td>
+                              <tr id="cartproduct" class='success'>
+                                <td>
+                                  <input type="hidden" id="prod_id" name="prod_id" value="<?php //echo $row['ProductType']; ?>" class="form-control">
+                                  <input type="text" id="prod_name" name="prod_name" value="SIGNET(20MLX250)" class="form-control" readonly>
+                               </td>
+                      					<td><input type="text" id="qty" name="qty" value="2" size="1" maxlength="2"  class="form-control" required=""></td>
+                                <td>10600</td>
+
+                                <td><a href="#"><i class="fa fa-trash" style="font-size:18px;color:red"></i></a></td>
                       				</tr>
-                  			</thead>
-                  			<tbody>
+                              <tr id="cartproduct" class='success'>
+                               <td>
+                                  <input type="hidden" id="prod_id" name="prod_id" value="<?php //echo $row['ProductType']; ?>" class="form-control">
+                                  <input type="text" id="prod_name" name="prod_name" value="SIGNET(20MLX250)" class="form-control" readonly>
+                               </td>
+                                <td><input type="text" id="qty" name="qty" value="2" size="1" maxlength="2"  class="form-control" required=""></td>
+                                <td>10600</td>
+                                <td><a href="#"><i class="fa fa-trash" style="font-size:18px;color:red"></i></a></td>
+                              </tr>
                         </tbody>
+                        <tfoot>
+                          <tr>
+                            <td style="border:none;">&nbsp;</td>
+                            <td style="border:none;"><strong>Sub Total</strong></td>
+                            <td style="border:none;"><strong>15900</strong></td>
+                            <td style="border:none;">&nbsp;</td>
+                          </tr>
+                          <tr>
+                            <td style="border:none;"><button type="button" style="background-color:green" id="add-product" class="btn btn-primary btn-sm">
+                            <i class="fa fa-plus-circle"></i>&nbsp;Add Products
+                          </button></td>
+                            <td colspan="3" style="text-align:right;border:none;"><button type="submit" class="btn btn-primary btn-sm">
+                              <i class="fa fa-dot-circle-o"></i>&nbsp;Update
+                            </button></td>
+                          </tr>
+                        </tfoot>
                       </table >
+                      </div><!--cart products-->
+                      <div class="progress mb-2" style="height: 3px;">
+                          <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
+
                       <div class="row form-group">
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Discount</label><input type="text" id="chDiscount" name="discount" value="" placeholder="Discount" class="form-control"></div>
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">GST</label><input type="number" id="gstInput" name="gstInput" value="" class="form-control"></div>
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Total</label><input type="text" name="payable_amount" id="tot_amount" class="form-control" readonly=""></div>
-                      </div>
-                      <div class="progress mb-2" style="height: 3px;">
-                          <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Tax Type</label></div>
@@ -122,5 +156,19 @@
                   <script src="<?php echo base_url('assets/js/popper.min.js'); ?>"></script>
                   <script src="<?php echo base_url('assets/js/plugins.js'); ?>"></script>
                   <script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+          //var count = 0;
+      jQuery("#add-product").click(function() {
+
+          //if (count >= 5) return;
+          var ptype = "<?php echo $row['ProductType']; ?>";
+          alert(ptype);
+
+      });
+
+
+  });
+    </script>
     </body>
     </html>
