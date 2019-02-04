@@ -24,7 +24,6 @@
             <th>Current Limit</th>
             <th>Status</th>
 						<th>Action</th>
-
                       </tr>
                     </thead>
                     <tbody>
@@ -43,7 +42,7 @@
             <?php endif; ?>
             </td>
         <td>
-         <a class="btn btn-primary btn-sm" href="<?php //echo base_url('OrderRequest/viewOrder/'.$row['order_id']); ?>"><i class="fa fa-eye" ></i>&nbsp;View</a>
+         <a class="btn btn-primary btn-sm" href="<?php echo base_url('OrderRequest/viewOrder/'.$row['bill_id']); ?>"><i class="fa fa-eye" ></i>&nbsp;View</a>
         </td>
           </tr>
 					<?php } ?>

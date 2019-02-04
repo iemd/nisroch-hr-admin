@@ -275,6 +275,16 @@ class DataModel extends CI_Model
 					$result = $query->result_array();
 					return $result;
 			}
+			public function vieworder($bill_id=null)
+			{
+					$this->db->select('*');
+					$this->db->where('bill_id',$bill_id);
+					$this->db->from('billing');
+					$query = $this->db->get();
+					//print $this->db->last_query();die;
+					$result = $query->result_array();
+					return $result;
+			}
 			public function ledgerprint($bill_id=null)
 			{
 				$this->db->select('*');
