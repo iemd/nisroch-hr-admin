@@ -53,7 +53,7 @@
                     <h3 class="menu-title">STAFF (HR)</h3><!-- /.menu-title -->
                     <li><a href="<?php echo base_url('Staff/'); ?>"> <i class="menu-icon fa fa-laptop"></i>View Staff</a></li>
                     <li><a href="<?php echo base_url('AccountDetail/'); ?>"> <i class="menu-icon fa fa-users"></i>Account Detail</a></li>
-                    <li><a href="#"> <i class="menu-icon fa fa-bus"></i>View Today Work Report</a></li>
+                    <li><a href="<?php echo base_url('WorkReport'); ?>"> <i class="menu-icon fa fa-bus"></i>View Today Work Report</a></li>
                     <li><a href="#"> <i class="menu-icon fa fa-bus"></i>Assign Work</a></li>
                     <li><a href="<?php echo base_url('Distributor'); ?>"> <i class="menu-icon fa fa-group"></i>Create Distributor</a></li>
                     <li><a href="<?php echo base_url('Distributor/Listing'); ?>"> <i class="menu-icon fa fa-group"></i>View Distributor</a></li>

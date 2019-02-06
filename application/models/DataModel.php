@@ -369,7 +369,7 @@ class DataModel extends CI_Model
 					}
 			}
 
-		public function StaffDetails()
+		 public function StaffDetails()
 			{
 				$this->db->select('*');
 				//$this->db->where('type', 'Staff');
@@ -378,6 +378,50 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				return $result;
 			}
+			public function StaffMeetings($date = null, $staff_id=null)
+			 {
+				 $this->db->select('*');
+				 $this->db->where('staff_meeting.followup_date', $date);
+				 $this->db->where('staff_meeting.created_by',$staff_id);
+				 $this->db->from('staff');
+				 $this->db->join('staff_meeting', 'staff_meeting.created_by = staff.ID');
+				 $query = $this->db->get();
+				 $result = $query->result_array();
+				 return $result;
+			 }
+			 public function StaffOrders($date = null, $staff_id=null)
+				{
+					$this->db->select('*');
+					$this->db->where('billing.date', $date);
+					$this->db->where('billing.created_by',$staff_id);
+					$this->db->from('staff');
+					$this->db->join('billing', 'billing.created_by = staff.ID');
+					$query = $this->db->get();
+					$result = $query->result_array();
+					return $result;
+				}
+				public function StaffVisitDealers($date = null, $staff_id=null)
+				 {
+					 $this->db->select('*');
+					 $this->db->where('staff_visit_dealer.followup_date', $date);
+					 $this->db->where('staff_visit_dealer.created_by',$staff_id);
+					 $this->db->from('staff');
+					 $this->db->join('staff_visit_dealer', 'staff_visit_dealer.created_by = staff.ID');
+					 $query = $this->db->get();
+					 $result = $query->result_array();
+					 return $result;
+				 }
+				 public function StaffVisitFarmers($date = null, $staff_id=null)
+					{
+						$this->db->select('*');
+						$this->db->where('staff_visit_farmer.followup_date', $date);
+						$this->db->where('staff_visit_farmer.created_by',$staff_id);
+						$this->db->from('staff');
+						$this->db->join('staff_visit_farmer', 'staff_visit_farmer.created_by = staff.ID');
+						$query = $this->db->get();
+						$result = $query->result_array();
+						return $result;
+					}
 			public function StaffTotalDistributor($staff_id = null)
 				{
 					$this->db->select('*');
