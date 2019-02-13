@@ -93,7 +93,31 @@ class Staff extends CI_Controller {
 			redirect(base_url('Staff'), 'refresh');
 		}
 	}
+	public function Distributor($staff_id=null)
+	{
+		$this->load->model('DataModel');
+		$data['StaffDetails'] = $this->DataModel->StaffDetails();
+		$data['distributorlist'] = $this->DataModel->distributorlist();
+		$data['StaffDistributorlist'] = $this->DataModel->StaffDistributorlist($staff_id);
+		$data['StaffID'] = $staff_id;
+		//print_r($data['StaffDetails']);
+		$this->load->view('common/header');
+		$this->load->view('allocatedistributor',$data);
+	}
+	public function SaveDistributor()
+	{
 
+			$this->load->model('DataModel');
+			$staff_id = $this->input->post('Staff');
+			$dist_ids = $this->input->post('Distributor');
+			$allocated = $this->DataModel->AllocateRemoveDistributor($dist_ids, $staff_id);
+			if($allocated)
+			{
+				$message = $this->session->set_flashdata('message', 'Distributor successfully allocated/removed');
+				redirect(base_url('Staff/Distributor/').$staff_id, 'refresh', $message);
+
+			}
+	}
 
 	public function deleteDistributor($dist_id=null)
 	{

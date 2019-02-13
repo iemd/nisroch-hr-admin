@@ -57,16 +57,15 @@
                     <li><a href="#"> <i class="menu-icon fa fa-bus"></i>Assign Work</a></li>
                     <li><a href="<?php echo base_url('Distributor'); ?>"> <i class="menu-icon fa fa-group"></i>Create Distributor</a></li>
                     <li><a href="<?php echo base_url('Distributor/Listing'); ?>"> <i class="menu-icon fa fa-group"></i>View Distributor</a></li>
+                    <li><a href="<?php echo base_url('Distributor/SpecialCredit'); ?>"> <i class="menu-icon fa fa-laptop"></i>Distributor Special Credit</a></li>
+                    <li><a href="<?php echo base_url('Staff/Distributor'); ?>"> <i class="menu-icon fa fa-laptop"></i>Staff Distributor (Allocate)</a></li>
                     <li><a href="<?php echo base_url('DistributorRequest/'); ?>"> <i class="menu-icon fa fa-users"></i>Staff Distributor Request</a></li>
                     <li><a href="<?php echo base_url('OrderRequest/'); ?>"> <i class="menu-icon fa fa-users"></i>Staff Order Request</a></li>
                     <li><a href="<?php echo base_url('Billing'); ?>"> <i class="menu-icon fa fa-bus"></i>Generate Bill</a></li>
                     <li><a href="<?php echo base_url('Inventory'); ?>"> <i class="menu-icon fa fa-bus"></i>Inventory View</a></li>
                     <li><a href="<?php echo base_url('Inventory/Ledger'); ?>"> <i class="menu-icon fa fa-group"></i>Ledger (Dealer)</a></li>
                     <li><a href="<?php echo base_url('Billing/InvoiceView'); ?>"> <i class="menu-icon fa fa-group"></i>Invoice (Dealer)</a></li>
-                    <li><a href="#"> <i class="menu-icon fa fa-group"></i>Generate Order</a></li>
-                    <li><a href="#"> <i class="menu-icon fa fa-group"></i>View Invoice</a></li>
-                    <!--<li><a href="<?php echo base_url('Distributor'); ?>"> <i class="menu-icon fa fa-laptop"></i>Create Distributor</a></li>
-                    <li><a href="<?php echo base_url('Distributor/Listing'); ?>"> <i class="menu-icon fa fa-laptop"></i>View Distributor</a></li>-->
+                      <li><a href="<?php echo base_url('Inventory/LedgerDistributor'); ?>"> <i class="menu-icon ti-email"></i>Accumulated Ledger</a></li>
                     <li><a href="<?php echo base_url('AdminPanel/logOut'); ?>" class="dropdown-toggle" > <i class="menu-icon fa fa-area-chart"></i>Logout</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->

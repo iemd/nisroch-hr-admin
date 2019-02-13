@@ -25,7 +25,7 @@ class Inventory extends CI_Controller {
 		$this->load->view('common/header');
 		$this->load->view('inventory', $data);
 	}
-	
+
 	public function Ledger()
 	{
 		$this->load->model('DataModel');
@@ -34,7 +34,30 @@ class Inventory extends CI_Controller {
 		$this->load->view('common/header');
 		$this->load->view('ledger', $data);
 	}
-	
+	public function LedgerDistributor($dist_id = null,$from = null, $to = null)
+	{
+		$this->load->model('DataModel');
+		$data['DistributorList'] = $this->DataModel->distributorlist();
+		$data['DistributorID'] = $dist_id;
+		$data['DateFrom'] = $from;
+		$data['DateTo'] = $to;
+		$data['DistributorLedger'] = $this->DataModel->getLedgerByDistributor($dist_id, $from, $to);
+		//print_r($data['ledger']);die;
+		$this->load->view('common/header');
+		$this->load->view('ledgerdistributor', $data);
+	}
+	public function LedgerPrintDistributor($dist_id = null,$from = null, $to = null)
+	{
+		$this->load->model('DataModel');
+		$data['DistributorID'] = $dist_id;
+		$data['DateFrom'] = $from;
+		$data['DateTo'] = $to;
+		$data['LedgerPrintDistributor'] = $this->DataModel->getLedgerByDistributor($dist_id, $from, $to);
+		$data['SpecialCredit'] = $this->DataModel->getSpecialCredit($dist_id);
+		//print_r($data['ledger']);die;
+		//$this->load->view('common/header');
+		$this->load->view('ledgerprintdist', $data);
+	}
 	public function LedgerPrint($bill_id=null)
 	{
 		$this->load->model('DataModel');
@@ -44,7 +67,7 @@ class Inventory extends CI_Controller {
 		//$this->load->view('common/header');
 		$this->load->view('ledgerprint', $data);
 	}
-	
+
 	public function AllLedgerPrint($dist_id=null)
 	{
 		$this->load->model('DataModel');
@@ -52,132 +75,132 @@ class Inventory extends CI_Controller {
 		//print_r($data['getcart']);die;
 		$this->load->view('allledgerprint', $data);
 	}
-	
+
 	public function stockIn($prod_id=null)
 	{
 		$this->load->model('DataModel');
 		$data['getEditUser'] = $this->DataModel->bagEditUser($prod_id);
 		//print_r($data['getEditUser']);die;
-		
+
 		$this->load->view('common/header');
 		$this->load->view('stockIn', $data);
 	}
-	
+
 	public function CasestockIn($prod_id=null)
 	{
 		$this->load->model('DataModel');
 		$data['getEditUser'] = $this->DataModel->bagEditUser($prod_id);
 		$this->load->view('common/header');
 		$this->load->view('CasestockIn', $data);
-		
-		
+
+
 	}
-	
+
 	public function DrumstockIn($prod_id=null)
 	{
 		$this->load->model('DataModel');
 		$data['getEditUser'] = $this->DataModel->bagEditUser($prod_id);
 		//print_r($data['getEditUser']);die;
-		
+
 		$this->load->view('common/header');
 		$this->load->view('drumStockIn', $data);
-		
-		
+
+
 	}
-	
+
 	public function CustomstockIn($prod_id=null)
 	{
 		$this->load->model('DataModel');
 		$data['getEditUser'] = $this->DataModel->bagEditUser($prod_id);
 		//print_r($data['getEditUser']);die;
-		
+
 		$this->load->view('common/header');
 		$this->load->view('customStockIn', $data);
-		
-		
+
+
 	}
-	
-	
-	
+
+
+
 	public function bagstockUpdate($prod_id=null)
 	{
 		$this->load->model('DataModel');
-		
+
 		$qty = $this->input->post('qty');
-		
+
 		$result = $this->DataModel->bagstockin($qty, $prod_id);
 		if($result)
 		{
 			$message = $this->session->set_flashdata('message', 'Your product has been successfully added');
 			redirect('/Inventory/', 'refresh', $message);
-			
+
 		}
-		
+
 	}
-	
+
 	public function casestockUpdate($prod_id=null)
 	{
 		$this->load->model('DataModel');
-		
+
 		$qty = $this->input->post('qty');
-		
+
 		$result = $this->DataModel->casestockin($qty, $prod_id);
 		if($result)
 		{
 			$message = $this->session->set_flashdata('message', 'Your product has been successfully added');
 			redirect('/Inventory/', 'refresh', $message);
-			
+
 		}
-		
+
 	}
-	
+
 	public function drumstockUpdate($prod_id=null)
 	{
 		$this->load->model('DataModel');
-		
+
 		$qty = $this->input->post('qty');
-		
+
 		$result = $this->DataModel->drumstockin($qty, $prod_id);
 		if($result)
 		{
 			$message = $this->session->set_flashdata('message', 'Your product has been successfully added');
 			redirect('/Inventory/', 'refresh', $message);
-			
+
 		}
-		
+
 	}
-	
+
 	public function CustomstockUpdate($prod_id=null)
 	{
 		$this->load->model('DataModel');
-		
+
 		$qty = $this->input->post('qty');
-		
+
 		$result = $this->DataModel->customstockin($qty, $prod_id);
 		if($result)
 		{
 			$message = $this->session->set_flashdata('message', 'Your product has been successfully added');
 			redirect('/Inventory/', 'refresh', $message);
-			
-		}
-		
-	}
-	
-	
 
-	
+		}
+
+	}
+
+
+
+
 	public function export_csv()
 		{
-		
+
 		$this->load->dbutil(); // call db utility library
 		$this->load->helper('download'); // call download helper
-	 
+
 		$query = $this->db->query("SELECT * FROM products LIMIT 500"); // whatever you want to export to CSV, just select in query
-		
+
 		$filename = 'inventory_details.csv'; // name of csv file to download with data
 		force_download($filename, $this->dbutil->csv_from_result($query)); // download file
-			 
+
 		}
-	
-	
+
+
 }
