@@ -18,12 +18,13 @@
                     <thead>
                       <tr>
                         <th>SrNo.</th>
-                        <th>OrderID</th>
-						<th>Date</th>
-						<th>Distriburor ID</th>
-            <th>Current Limit</th>
-            <th>Status</th>
-						<th>Action</th>
+                        <th>Staff Name | Mobile</th>
+            						<th>Dist.Name | Mobile</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Current Limit</th>
+                        <th>Status</th>
+            						<th>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -31,9 +32,10 @@
                       <tr>
 					  <?php //print_r($row);die; ?>
             <td><?php echo $row['bill_id']; ?></td>
-						<td><?php echo $row['Invoice']; ?></td>
+						<td><?php echo $row['sname']; ?>&nbsp;|&nbsp;<?php echo $row['snumber']; ?></td>
+						<td><?php echo $row['dname']; ?>&nbsp;|&nbsp;<?php echo $row['dnumber']; ?></td>
 						<td><?php echo $row['date']; ?></td>
-						<td><?php echo $row['Distributor_id']; ?></td>
+            <td><?php echo $row['latitude']; ?>&nbsp;|&nbsp;<?php echo $row['longitude']; ?></td>
             <td><?php echo $row['current_limit']; ?></td>
             <td><?php if($row['order_status'] == 1): ?>
               <button name="approve" class="btn btn-success btn-sm" id="approve">Approved</button>

@@ -522,13 +522,26 @@ class DataModel extends CI_Model
 						$result = $query->result_array();
 						return $result;
 					}
-			public function StaffOrderRequest()
+			/*public function StaffOrderRequest()
 				{
 					$this->db->select('*');
 					$this->db->where('created_by !=', 0);
 					$this->db->where('created_by !=', -1);
 					$this->db->from('billing');
 					$query = $this->db->get();
+					$result = $query->result_array();
+					return $result;
+				}*/
+				public function StaffOrderRequest()
+				{
+					$this->db->select('b.bill_id,s.name as sname,s.number as snumber,d.name as dname,d.number as dnumber,b.date,b.current_limit,b.latitude,b.longitude,b.order_status');
+					$this->db->where('b.created_by !=', 0);
+					$this->db->where('b.created_by !=', -1);
+					$this->db->from('billing as b');
+					$this->db->join('staff as s', 's.ID = b.created_by');
+					$this->db->join('distributor as d', 'd.dist_id = b.Distributor_id');
+					$query = $this->db->get();
+					//print $this->db->last_query();die;
 					$result = $query->result_array();
 					return $result;
 				}
