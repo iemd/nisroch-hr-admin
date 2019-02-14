@@ -55,7 +55,7 @@
 
     <!-- Right Panel -->
     <!-- Modal -->
-  <div class="content mt-6 modal fade" id="reportPopup" role="dialog">
+  <!--<div class="content mt-6 modal fade" id="reportPopup" role="dialog">
       <div class="animated fadeIn modal-dialog modal-md">
       <div class="row">
       <div class="col-lg-12">
@@ -63,12 +63,12 @@
           <div class="card-header modal-header">
             <strong class="modal-title">REPORT DETAILS</strong>
             <!--<h4 style="color:green;"><?php //echo $this->session->flashdata('message'); ?></h4>-->
-          </div>
+          <!--</div>
           <div class="card-body card-block modal-body" id="meetingDetails">
 
           </div>
       </div>
-</div>
+</div>-->
 
 <?php } else { ?>
 

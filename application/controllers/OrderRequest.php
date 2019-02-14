@@ -32,6 +32,11 @@ class OrderRequest extends CI_Controller {
      $this->load->model('DataModel');
      $this->load->model('Transport_Model');
      $data['vieworder'] = $this->DataModel->vieworder($bill_id);
+     foreach($data['vieworder'] as $prod){
+       $ptype = $prod['ProductType'];
+     }
+     $data['productlist'] = $this->DataModel->getProductByType($ptype);
+     $data['getcart'] = $this->DataModel->getcart($bill_id);
      $data['transport'] = $this->Transport_Model->getAllTransports();
      //print_r($data['editdistributor']);die;
      $this->load->view('common/header');
@@ -67,4 +72,29 @@ class OrderRequest extends CI_Controller {
        redirect(base_url('DistributorRequest'), 'refresh');
      }
    }
+
+   	public function getProductList($ptype)
+   	{
+   			$this->load->model('DataModel');
+   			$ptype = $this->input->post('ptype');
+   			$productCollection = $this->DataModel->getProductByType($ptype);
+   			$options = "<option value=''>Select $ptype Product</option>";
+   			foreach($productCollection as $row){
+   					$ProdID = $row['prod_id'];
+   					$ProdName = $row['prod_name'];
+   					$bagqty = $row['bagqty'];
+   					$caseqty = $row['caseqty'];
+   					$drumqty = $row['drumqty'];
+   					$customqty = $row['customqty'];
+   					if(($bagqty <= 0) && ($caseqty <= 0) && ($drumqty <= 0) && ($customqty <= 0)){
+   							$options.="<option style='background-color: #de7a65;' value='$ProdID'>Stock Not Available | $ProdName</option>";
+   					}else if(($bagqty <= 0) OR ($caseqty <= 0) OR ($drumqty <= 0) OR ($customqty <= 0)){
+   						  $options.="<option style='background-color: #de7a65;' value='$ProdID'>$bagqty | $ProdName</option>";
+   					}
+   					else{
+   						$options.="<option value='$ProdID'>$ProdName</option>";
+   					}
+   			}
+   			echo 	$options;
+   	}
 }

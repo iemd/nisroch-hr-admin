@@ -362,6 +362,7 @@ class DataModel extends CI_Model
 					$this->db->select('*');
 					$this->db->where('bill_id',$bill_id);
 					$this->db->from('billing');
+					$this->db->join('distributor', 'billing.Distributor_id = distributor.dist_id', 'full');
 					$query = $this->db->get();
 					//print $this->db->last_query();die;
 					$result = $query->result_array();
@@ -681,7 +682,15 @@ class DataModel extends CI_Model
 
 				return $result;
 			}
-
+			public function getProductByType($ptype=null)
+				{
+					$this->db->select('*');
+					$this->db->where('category',$ptype);
+					$this->db->from('products');
+					$query = $this->db->get();
+					$result = $query->result_array();
+					return $result;
+				}
 		public function gettax($invoiceId=null)
 			{
 				$this->db->select('Billtaxtype');

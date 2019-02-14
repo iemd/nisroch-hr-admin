@@ -27,12 +27,12 @@
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Dist. Name | Limit</label></div>
-                            <div class="col-12 col-md-4"><input type="text" id="Distributor_id" name="Distributor_id" value="<?php echo $row['Distributor_id']; ?>" placeholder="Distributor Name" class="form-control" required=""></div>
+                            <div class="col-12 col-md-4"><input type="text" id="Distributor_id" name="Distributor_id" value="<?php echo $row['name']; ?>" placeholder="Distributor Name" class="form-control" required=""></div>
                             <div class="col-12 col-md-4"><input type="text" id="Distributor_id" name="Distributor_id" value="<?php echo $row['current_limit']; ?>" placeholder="Current Limit" class="form-control" required=""></div>
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Mobile No.</label></div>
-                            <div class="col-12 col-md-8"><input type="text" id="number" name="number" value="<?php //echo $row['ProductType']; ?>" placeholder="Mobile No." class="form-control" required=""></div>
+                            <div class="col-12 col-md-8"><input type="text" id="number" name="number" value="<?php echo $row['number']; ?>" placeholder="Mobile No." class="form-control" required=""></div>
                       </div>
                       <div class="progress mb-2" style="height: 3px;">
                           <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -48,35 +48,40 @@
                   						</tr>
                             </thead>
                           	<tbody>
+                              <?php $prod_type = $row['ProductType']; $selected = $readonly = ''; ?>
+                              <?php foreach($getcart as $product){ ?>
                               <tr id="cartproduct" class='success'>
                       				  <td>
-                                  <input type="hidden" id="prod_id" name="prod_id" value="<?php //echo $row['ProductType']; ?>" class="form-control" >
-                                  <input type="text" id="prod_name" name="prod_name" value="SIGNET(20MLX250)" class="form-control" readonly>
+                                  <select name="productList[]" id="productList" class="form-control" required>
+                                    <option  value="">Select&nbsp;<?php echo $prod_type; ?>&nbsp;Product</option>
+                                    <?php foreach($productlist as $row) {
+                                      if($product['prod_id'] == $row['prod_id']){$selected = 'selected';}
+                                      $ProdID = $row['prod_id'];
+                                      $ProdName = $row['prod_name'];
+                                      $bagqty = $row['bagqty'];
+                                      $caseqty = $row['caseqty'];
+                                      $drumqty = $row['drumqty'];
+                                      $customqty = $row['customqty'];
+                                      if(($bagqty <= 0) && ($caseqty <= 0) && ($drumqty <= 0) && ($customqty <= 0)){
+                                          echo "<option style='background-color: #de7a65;' value='$ProdID' $selected>Stock Not Available | $ProdName</option>";
+                                      }else if(($bagqty <= 0) OR ($caseqty <= 0) OR ($drumqty <= 0) OR ($customqty <= 0)){
+                                          echo "<option style='background-color: #de7a65;' value='$ProdID' $selected>$bagqty | $ProdName</option>";
+                                      }
+                                      else{
+                                        echo "<option value='$ProdID' $selected>$ProdName</option>";
+                                      }
+                                        $selected = '';
+                                      }
+                                    ?>
+                                  </select>
                                </td>
-                      					<td><input type="text" id="qty" name="qty" value="1" size="1" maxlength="2"  class="form-control" required=""></td>
-                                <td>5300</td>
+                      					<td><input type="text" id="qty" name="qty" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" required=""></td>
+                                <td><?php echo $product['base_price']; ?></td>
 
-                                <td><a href="#"><i class="fa fa-trash" style="font-size:18px;color:red"></i></a></td>
+                                <td><div id="delete-btn"><!--<i class="fa fa-trash btnDelete" style="font-size:18px;color:red"></i>--></div></td>
                       				</tr>
-                              <tr id="cartproduct" class='success'>
-                                <td>
-                                  <input type="hidden" id="prod_id" name="prod_id" value="<?php //echo $row['ProductType']; ?>" class="form-control">
-                                  <input type="text" id="prod_name" name="prod_name" value="SIGNET(20MLX250)" class="form-control" readonly>
-                               </td>
-                      					<td><input type="text" id="qty" name="qty" value="2" size="1" maxlength="2"  class="form-control" required=""></td>
-                                <td>10600</td>
+                            <?php  } ?>
 
-                                <td><a href="#"><i class="fa fa-trash" style="font-size:18px;color:red"></i></a></td>
-                      				</tr>
-                              <tr id="cartproduct" class='success'>
-                               <td>
-                                  <input type="hidden" id="prod_id" name="prod_id" value="<?php //echo $row['ProductType']; ?>" class="form-control">
-                                  <input type="text" id="prod_name" name="prod_name" value="SIGNET(20MLX250)" class="form-control" readonly>
-                               </td>
-                                <td><input type="text" id="qty" name="qty" value="2" size="1" maxlength="2"  class="form-control" required=""></td>
-                                <td>10600</td>
-                                <td><a href="#"><i class="fa fa-trash" style="font-size:18px;color:red"></i></a></td>
-                              </tr>
                         </tbody>
                         <tfoot>
                           <tr>
@@ -86,7 +91,7 @@
                             <td style="border:none;">&nbsp;</td>
                           </tr>
                           <tr>
-                            <td style="border:none;"><button type="button" style="background-color:green" id="add-product" class="btn btn-primary btn-sm">
+                            <td style="border:none;"><button type="button" style="background-color:green" id="add-product" class="btn btn-primary btn-sm add-product">
                             <i class="fa fa-plus-circle"></i>&nbsp;Add Products
                           </button></td>
                             <td colspan="3" style="text-align:right;border:none;"><button type="submit" class="btn btn-primary btn-sm">
@@ -158,17 +163,20 @@
                   <script src="<?php echo base_url('assets/js/main.js'); ?>"></script>
 <script type="text/javascript">
     jQuery(document).ready(function() {
-          //var count = 0;
+
       jQuery("#add-product").click(function() {
 
-          //if (count >= 5) return;
-          var ptype = "<?php echo $row['ProductType']; ?>";
-          alert(ptype);
+        var clone = jQuery("#cartproduct").first().clone();
+        //clone.find("#productList").attr("required","");
+        clone.find("#delete-btn").append("<button type='button' id='delete' class='btn btn-danger btn-sm btnDelete'><i class='fa fa-trash'></i></button>");
+        jQuery('#example1  tbody:last').append(clone);
 
       });
-
+      jQuery("#example1").on('click', '.btnDelete', function () {
+          jQuery(this).closest('tr').remove();
+      });
 
   });
-    </script>
-    </body>
-    </html>
+  </script>
+  </body>
+  </html>
