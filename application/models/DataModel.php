@@ -187,7 +187,50 @@ class DataModel extends CI_Model
 				$result = $query->result_array();
 				return $result;
 			}
+			public function getProduct($prod_id=null)
+			{
+					$this->db->select('*');
+					$this->db->where('prod_id',$prod_id);
+					$this->db->from('products');
+					$query = $this->db->get();
+					$result = $query->result_array();
+					return $result;
+			}
+			public function getQuantityType($prod_id=null)
+			{
+				$this->db->select('*');
+				$this->db->where('prod_id',$prod_id);
+				$this->db->from('products');
+				$query = $this->db->get();
+				$result = $query->result_array();
+				if(!empty($result)){
+		        foreach($result as $row){}
+						$bagprice = $row['bagprice'];
+						$caseprice = $row['caseprice'];
+						$drumprice = $row['drumprice'];
+						$customprice = $row['customprice'];
 
+						$bagtype = $row['bagtype'];
+						$casetype = $row['casetype'];
+						$drumtype = $row['drumtype'];
+						$customunit = $row['customunit'];
+						if(!empty($bagprice)){
+							$qtytype = $bagtype;
+						}if(!empty($caseprice)){
+							$qtytype = $casetype;
+						}
+						if(!empty($drumprice)){
+							$qtytype = $drumtype;
+						}
+						if(!empty($customprice)){
+							$qtytype = 	$customunit;
+						}
+				}
+				else{
+						$qtytype="";
+				}
+				return $qtytype;
+			}
 		public function ledger()
 			{
 				$this->db->select('*');

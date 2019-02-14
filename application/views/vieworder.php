@@ -1,6 +1,6 @@
  <?php $Loginid = $this->session->userdata('ID');?>
  <?php if (!empty($Loginid)){ ?>
-       <?php foreach($vieworder as $row){ } ?>
+       <?php foreach($vieworder as $row){ } $bill_id = $row['bill_id']; ?>
         <!-- Header-->
         <div class="content mt-6">
             <div class="animated fadeIn">
@@ -38,6 +38,7 @@
                           <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                       <div class='table-responsive'><!--cart products-->
+                      <h4 style="color:green;" id="message"></h4><br/>
                   		<table id='example1' class='table table-bordered table-striped'>
                   					<thead>
                   						<tr>
@@ -48,7 +49,7 @@
                   						</tr>
                             </thead>
                           	<tbody>
-                              <?php $prod_type = $row['ProductType']; $selected = $readonly = ''; ?>
+                              <?php $prod_type = $row['ProductType']; $selected = $readonly = '';$subtotal=0; ?>
                               <?php foreach($getcart as $product){ ?>
                               <tr id="cartproduct" class='success'>
                       				  <td>
@@ -75,11 +76,12 @@
                                     ?>
                                   </select>
                                </td>
-                      					<td><input type="text" id="qty" name="qty" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" required=""></td>
+                      					<td><input type="text" id="qty" name="qty[]" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" required=""></td>
                                 <td><?php echo $product['base_price']; ?></td>
 
                                 <td><div id="delete-btn"><!--<i class="fa fa-trash btnDelete" style="font-size:18px;color:red"></i>--></div></td>
                       				</tr>
+                              <?php $subtotal +=$product['base_price']*$product['quantity'];  ?>
                             <?php  } ?>
 
                         </tbody>
@@ -87,14 +89,14 @@
                           <tr>
                             <td style="border:none;">&nbsp;</td>
                             <td style="border:none;"><strong>Sub Total</strong></td>
-                            <td style="border:none;"><strong>15900</strong></td>
+                            <td style="border:none;"><strong id="subtotal"><?php echo $subtotal; ?></strong></td>
                             <td style="border:none;">&nbsp;</td>
                           </tr>
                           <tr>
                             <td style="border:none;"><button type="button" style="background-color:green" id="add-product" class="btn btn-primary btn-sm add-product">
                             <i class="fa fa-plus-circle"></i>&nbsp;Add Products
                           </button></td>
-                            <td colspan="3" style="text-align:right;border:none;"><button type="submit" class="btn btn-primary btn-sm">
+                            <td colspan="3" style="text-align:right;border:none;"><button type="button" id="update-cart" class="btn btn-primary btn-sm">
                               <i class="fa fa-dot-circle-o"></i>&nbsp;Update
                             </button></td>
                           </tr>
@@ -176,6 +178,29 @@
           jQuery(this).closest('tr').remove();
       });
 
+  });
+  </script>
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+     jQuery("#update-cart").click(function() {
+      var cart =  jQuery("select[name='productList[]']").map(function(){return  jQuery(this).val();}).get();
+      var quantity =  jQuery("input[name='qty[]']").map(function(){return  jQuery(this).val();}).get();
+      var bill_id = "<?php echo $bill_id; ?>";
+  		//alert(bill_id);
+  		jQuery.ajax({
+  				url : "<?php echo site_url('OrderRequest/updateCart');?>",
+  				method : "POST",
+  				data: {bill_id: bill_id, cart: cart, quantity: quantity},
+  				success: function(data){
+              //alert(data);
+              //var splitted = data.split("|");
+              //jQuery('#message').html(splitted[0]);
+              //jQuery('#message').html(splitted[1]);
+              jQuery('#message').html(data);
+              window.location.replace("<?php //echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
+  				}
+  			});
+      });
   });
   </script>
   </body>

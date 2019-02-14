@@ -73,28 +73,71 @@ class OrderRequest extends CI_Controller {
      }
    }
 
-   	public function getProductList($ptype)
+   	public function updateCart()
    	{
-   			$this->load->model('DataModel');
-   			$ptype = $this->input->post('ptype');
-   			$productCollection = $this->DataModel->getProductByType($ptype);
-   			$options = "<option value=''>Select $ptype Product</option>";
-   			foreach($productCollection as $row){
-   					$ProdID = $row['prod_id'];
-   					$ProdName = $row['prod_name'];
-   					$bagqty = $row['bagqty'];
-   					$caseqty = $row['caseqty'];
-   					$drumqty = $row['drumqty'];
-   					$customqty = $row['customqty'];
-   					if(($bagqty <= 0) && ($caseqty <= 0) && ($drumqty <= 0) && ($customqty <= 0)){
-   							$options.="<option style='background-color: #de7a65;' value='$ProdID'>Stock Not Available | $ProdName</option>";
-   					}else if(($bagqty <= 0) OR ($caseqty <= 0) OR ($drumqty <= 0) OR ($customqty <= 0)){
-   						  $options.="<option style='background-color: #de7a65;' value='$ProdID'>$bagqty | $ProdName</option>";
-   					}
-   					else{
-   						$options.="<option value='$ProdID'>$ProdName</option>";
-   					}
-   			}
-   			echo 	$options;
-   	}
+      $this->load->model('DataModel');
+      $bill_id = $this->input->post('bill_id');
+      $Cart = $this->input->post('cart');
+      $Qty = $this->input->post('quantity');
+      //return print_r($this->input->post());
+      $delete = $this->DataModel->deletecartbill($bill_id);
+      if($delete)
+      {
+          $i=$subtotal=0;
+          foreach($Cart as $product){
+            $productDetails = $this->DataModel->getProduct($product);
+            $quantitytype = $this->DataModel->getQuantityType($product);
+            foreach($productDetails as $productDetail){}
+            $cart['invoiceId'] = $bill_id;
+            $cart['prod_id'] = $product;
+            $cart['prod_name'] = $productDetail['prod_name'];
+            $cart['hsn'] = $productDetail['hsn'];
+            $cart['batch'] = $productDetail['batch'];
+            $cart['mdate'] = $productDetail['mfg'];
+            $cart['edate'] = $productDetail['exp'];
+            $base_price=""; $psize="";
+            if($quantitytype == "Bag"){
+              $base_price = $productDetail['bagprice'];
+              $psize = $productDetail['size'];
+              $bagqty = $productDetail['bagqty'];
+              $qty = $bagqty - $Qty[$i];
+              //$this->DataModel->bagstockin($qty, $product);
+            }
+            if($quantitytype == "Case"){
+              $base_price = $productDetail['caseprice'];
+              $psize = $productDetail['csize'];
+              $caseqty = $productDetail['caseqty'];
+              $qty = $caseqty - $Qty[$i];
+              //$this->DataModel->casestockin($qty, $product);
+            }
+            if($quantitytype == "Drum"){
+              $base_price = $productDetail['drumprice'];
+              $psize = $productDetail['dsize'];
+              $drumqty = $productDetail['drumqty'];
+              $qty = $drumqty - $Qty[$i];
+              //$this->DataModel->drumstockin($qty, $product);
+            }
+            if($quantitytype == "Custom"){
+              $base_price = $productDetail['customprice'];
+              $psize = "Custom";
+              $customqty = $productDetail['customqty'];
+              $qty = $customqty - $Qty[$i];
+              //$this->DataModel->customstockin($qty, $product);
+            }
+            $cart['psize'] = $psize;
+            $cart['quantity'] = $Qty[$i];
+            $cart['quantitytype'] = $quantitytype;
+            $cart['base_price'] = $base_price;
+            $subtotal +=$base_price;
+            //$cart['created_by'] = $this->session->userdata['ID'];
+            //print_r($cart); die;
+            $insert =  $this->db->insert('addcart',$cart);
+            $i++;
+          }
+          if($insert){
+            $message = 'Cart updated successfully !';
+            //echo $message;
+          }
+   	   }
+    }
 }
