@@ -15,11 +15,11 @@
                     <thead>
                       <tr>
                         <th>SrNo.</th>
-                        <th>Dist. Name</th>
+                        <th>Dist.Name | Mobile</th>
             						<th>Date</th>
             						<th>Location</th>
                         <th>Status</th>
-                        <th>Created By</th>
+                        <th>Staff Name | Mobile</th>
                         <th>Approved By</th>
             						<th>Action</th>
                       </tr>
@@ -29,9 +29,9 @@
           <tr>
 					  <?php //print_r($row);die; ?>
             <td><?php echo $row['dist_id']; ?></td>
-						<td><?php echo $row['name']; ?></td>
+						<td><?php echo $row['dname']; ?>&nbsp;|&nbsp;<?php echo $row['dnumber']; ?></td>
 						<td><?php echo $row['created_at']; ?></td>
-						<td><?php echo $row['City']; ?></td>
+						<td><?php echo $row['latitude']; ?>&nbsp;|&nbsp;<?php echo $row['longitude']; ?></td>
             <td><?php if($row['status'] == 1): ?>
               <button name="approve" class="btn btn-success btn-sm" id="approve">Approved</button>
             <?php else: ?>
@@ -41,7 +41,9 @@
             <td>
               <?php if($row['created_by'] == 0){echo "Admin";}
                       else if($row['created_by'] == -1){echo "HR";}
-                      else{echo "Staff";}
+                      else{
+                        echo $row['sname']." | ".$row['snumber'];
+                      }
                ?>
             </td>
             <td><?php echo $row['approved_by']; ?></td>

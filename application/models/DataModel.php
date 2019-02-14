@@ -545,13 +545,25 @@ class DataModel extends CI_Model
 					$result = $query->result_array();
 					return $result;
 				}
-				public function StaffDistributorRequest()
+				/*public function StaffDistributorRequest()
 					{
 						$this->db->select('*');
 						$this->db->where('created_by !=', 0);
 						$this->db->where('created_by !=', -1);
 						$this->db->from('distributor');
 						$query = $this->db->get();
+						$result = $query->result_array();
+						return $result;
+					}*/
+					public function StaffDistributorRequest()
+					{
+						$this->db->select('d.dist_id,d.name as dname,d.number as dnumber,d.latitude,d.longitude,d.status,d.created_by,d.approved_by,d.created_at,s.name as sname,s.number as snumber');
+						$this->db->where('d.created_by !=', 0);
+						$this->db->where('d.created_by !=', -1);
+						$this->db->from('distributor as d');
+						$this->db->join('staff as s', 's.ID = d.created_by');
+						$query = $this->db->get();
+						//print $this->db->last_query();die;
 						$result = $query->result_array();
 						return $result;
 					}
