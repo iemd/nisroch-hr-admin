@@ -145,7 +145,31 @@ class DataModel extends CI_Model
 				/*return $this->db->get('register_form', $data);*/
 
 			}
+			public function update_billtaxtype($taxtype, $bill_id)
+			{
+					$this->db->where('bill_id', $bill_id);
+					return $this->db->update('billing', $taxtype);
 
+					/*return $this->db->get('register_form', $data);*/
+
+			}
+			public function update_billtransport($transport, $bill_id)
+			{
+					$this->db->where('bill_id', $bill_id);
+					return $this->db->update('billing', $transport);
+
+					/*return $this->db->get('register_form', $data);*/
+
+			}
+			public function update_carttax($data, $bill_id,$prodid)
+			{
+					$this->db->where('invoiceId', $bill_id);
+					$this->db->where('prod_id', $prodid);
+					return $this->db->update('addcart', $data);
+
+					/*return $this->db->get('register_form', $data);*/
+
+			}
 		public function invoicedetails()
 			{
 				$this->db->select('*');

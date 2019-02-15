@@ -140,4 +140,55 @@ class OrderRequest extends CI_Controller {
           }
    	   }
     }
+    public function updateBilltaxtype(){
+      $this->load->model('DataModel');
+      $bill_id = $this->input->post('bill_id');
+      $taxtype['Billtaxtype']= $this->input->post('taxtype');
+      $tax = $this->input->post('taxtype');
+      $update = $this->DataModel->update_billtaxtype($taxtype, $bill_id);
+      if($update){
+          $cart = $this->DataModel->getcart($bill_id);
+          foreach($cart as $product){
+            $prodid = $product['prod_id'];
+            $fetchdata = $this->DataModel->getBillData($prodid);
+            foreach($fetchdata as $row){
+              if($tax == 'GST'){
+                $data['tax'] = $row['gst'];
+
+              }
+              if($tax == 'IGST'){
+                $data['tax'] = $row['igst'];
+
+              }
+              if($tax == ''){
+                $data['tax'] = '';
+
+              }
+              $update1 = $this->DataModel->update_carttax($data, $bill_id,$prodid);
+
+            }
+          }
+         if($update1){
+            $cartupdated = $this->DataModel->getcart($bill_id);
+            foreach($cartupdated as $cart){
+              $tax = $cart['base_price'] *  $cart['tax'] / 100;
+              $gst1[]=$tax * $cart['quantity'];
+            }
+            echo array_sum($gst1);
+         }else{
+           return false;
+         }
+
+      }else{
+        return false;
+      }
+    }
+    public function updateTransportType(){
+
+      $this->load->model('DataModel');
+      $bill_id = $this->input->post('bill_id');
+      $transport['transportType']= $this->input->post('transporttype');
+      $this->DataModel->update_billtransport($transport, $bill_id);
+
+    }
 }

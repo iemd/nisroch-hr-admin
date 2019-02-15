@@ -1,6 +1,6 @@
  <?php $Loginid = $this->session->userdata('ID');?>
  <?php if (!empty($Loginid)){ ?>
-       <?php foreach($vieworder as $row){ } $bill_id = $row['bill_id']; ?>
+       <?php foreach($vieworder as $row){ } $bill_id = $row['bill_id'];$taxtype = $row['Billtaxtype'];$transportType = $row['transportType']; ?>
         <!-- Header-->
         <div class="content mt-6">
             <div class="animated fadeIn">
@@ -79,7 +79,7 @@
                       					<td><input type="text" id="qty" name="qty[]" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" required=""></td>
                                 <td><?php echo $product['base_price']; ?></td>
 
-                                <td><div id="delete-btn"><!--<i class="fa fa-trash btnDelete" style="font-size:18px;color:red"></i>--></div></td>
+                                <td><div id="delete-btn"><i class="fa fa-check" style="font-size:18px;color:green"></i></div></td>
                       				</tr>
                               <?php $subtotal +=$product['base_price']*$product['quantity'];  ?>
                             <?php  } ?>
@@ -103,22 +103,38 @@
                         </tfoot>
                       </table >
                       </div><!--cart products-->
+                      <?php
+                            foreach($getcart as $cart) {
+                              $total = 0;
+                               $items = 0;
+                               $count = count($getcart);
+                               $quantity = $cart['quantity'];
+                               $tax = $cart['base_price'] *  $cart['tax'] / 100;
+
+                               $base_price = $cart['base_price'] + $tax;
+                               $data[]=$price = $base_price * $quantity;
+                               $current_limit = $cart['current_limit'];
+                               $dist_id = $cart['Distributor_id'];
+                               $ptype = $cart['ProductType'];
+                               $gst1[]=$tax * $cart['quantity'];
+                            }
+                      ?>
                       <div class="progress mb-2" style="height: 3px;">
                           <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
 
                       <div class="row form-group">
-                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Discount</label><input type="text" id="chDiscount" name="discount" value="" placeholder="Discount" class="form-control"></div>
-                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">GST</label><input type="number" id="gstInput" name="gstInput" value="" class="form-control"></div>
-                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Total</label><input type="text" name="payable_amount" id="tot_amount" class="form-control" readonly=""></div>
+                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Discount</label><input type="number" id="chDiscount" name="discount" value="" placeholder="Discount" class="form-control"></div>
+                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">GST</label><input type="number" id="gstInput" name="gstInput" value="<?php echo array_sum($gst1); ?>" class="form-control" readonly></div>
+                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Total</label><input type="text" name="payable_amount" id="tot_amount" value="<?php echo array_sum($gst1)+$subtotal; ?>" class="form-control" readonly=""></div>
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Tax Type</label></div>
                             <div class="col-12 col-md-8">
                             <select name="taxType" id="taxType" class="form-control" required="">
 															<option value="">Select Tax</option>
-      													<option value="GST">CGST + SGST</option>
-      													<option value="IGST">IGST</option>
+      													<option value="GST" <?php if($taxtype == "GST"){echo "selected";} ?>>CGST + SGST</option>
+      													<option value="IGST" <?php if($taxtype == "IGST"){echo "selected";} ?>>IGST</option>
       											  </select>
                             </div>
                       </div>
@@ -131,7 +147,7 @@
                                             if(!empty($transport)){
                                                 foreach($transport as $transportrow){
                                                     ?>
-                                                    <option value="<?php echo $transportrow["name"]; ?>"><?php echo $transportrow["name"]; ?></option>
+                                                    <option value="<?php echo $transportrow["name"]; ?>" <?php if($transportType == $transportrow["name"]){echo "selected";} ?>><?php echo $transportrow["name"]; ?></option>
                                                       <?php
                                                       }
                                               }
@@ -170,7 +186,7 @@
 
         var clone = jQuery("#cartproduct").first().clone();
         //clone.find("#productList").attr("required","");
-        clone.find("#delete-btn").append("<button type='button' id='delete' class='btn btn-danger btn-sm btnDelete'><i class='fa fa-trash'></i></button>");
+        clone.find("#delete-btn").html("<button type='button' id='delete' class='btn btn-danger btn-sm btnDelete'><i class='fa fa-trash'></i></button>");
         jQuery('#example1  tbody:last').append(clone);
 
       });
@@ -197,11 +213,50 @@
               //jQuery('#message').html(splitted[0]);
               //jQuery('#message').html(splitted[1]);
               jQuery('#message').html(data);
-              window.location.replace("<?php //echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
+              window.location.replace("<?php echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
   				}
   			});
       });
   });
   </script>
-  </body>
-  </html>
+  <script>
+  jQuery( function() {
+    jQuery( "#taxType" ).on('change', function() {
+        //alert( this.value );
+        var taxtype = jQuery( "#taxType" ).val();
+        var bill_id = "<?php echo $bill_id; ?>";
+        //alert(bill_id);
+        jQuery.ajax({
+            url : "<?php echo site_url('OrderRequest/updateBilltaxtype');?>",
+            method : "POST",
+            data: {bill_id: bill_id, taxtype: taxtype},
+            success: function(data){
+                //alert(data);
+                jQuery( "#gstInput").val(data);
+                //window.location.replace("<?php echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
+            }
+          });
+     });
+  } );
+
+  jQuery( function() {
+    jQuery( "#transportType" ).on('change', function() {
+        //alert( this.value );
+        var transporttype = jQuery( "#transportType" ).val();
+        var bill_id = "<?php echo $bill_id; ?>";
+        //alert(bill_id);
+        jQuery.ajax({
+            url : "<?php echo site_url('OrderRequest/updateTransportType');?>",
+            method : "POST",
+            data: {bill_id: bill_id, transporttype: transporttype},
+            success: function(data){
+                //alert(data);
+
+                window.location.replace("<?php echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
+            }
+          });
+     });
+  } );
+</script>
+</body>
+</html>
