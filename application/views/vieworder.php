@@ -1,6 +1,6 @@
  <?php $Loginid = $this->session->userdata('ID');?>
  <?php if (!empty($Loginid)){ ?>
-       <?php foreach($vieworder as $row){ } $bill_id = $row['bill_id'];$taxtype = $row['Billtaxtype'];$transportType = $row['transportType']; ?>
+       <?php foreach($vieworder as $row){ } $bill_id = $row['bill_id'];$taxtype = $row['Billtaxtype'];$transportType = $row['transportType'];$order_status = $row['order_status'];$discount = $row['discount']; ?>
         <!-- Header-->
         <div class="content mt-6">
             <div class="animated fadeIn">
@@ -53,7 +53,7 @@
                               <?php foreach($getcart as $product){ ?>
                               <tr id="cartproduct" class='success'>
                       				  <td>
-                                  <select name="productList[]" id="productList" class="form-control" required>
+                                  <select name="productList[]" id="productList" class="form-control"  <?php if($order_status == 1){echo"disabled";}else{echo "required";} ?>>
                                     <option  value="">Select&nbsp;<?php echo $prod_type; ?>&nbsp;Product</option>
                                     <?php foreach($productlist as $row) {
                                       if($product['prod_id'] == $row['prod_id']){$selected = 'selected';}
@@ -76,13 +76,14 @@
                                     ?>
                                   </select>
                                </td>
-                      					<td><input type="text" id="qty" name="qty[]" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" required=""></td>
+                      					<td><input type="text" id="qty" name="qty[]" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" <?php if($order_status == 1){echo"readonly";}else{echo "required";} ?>></td>
                                 <td><?php echo $product['base_price']; ?></td>
 
                                 <td><div id="delete-btn">
                                   <i class="fa fa-check" style="font-size:18px;color:green"></i>&nbsp;
+                                  <?php if($order_status == 1){}else{ ?>
                                   <button type='button' id='delete' class='btn btn-danger btn-sm btnDelete'><i class='fa fa-trash'></i></button>
-
+                                <?php } ?>
                                 </div>
                               </td>
                       				</tr>
@@ -98,12 +99,20 @@
                             <td style="border:none;">&nbsp;</td>
                           </tr>
                           <tr>
-                            <td style="border:none;"><button type="button" style="background-color:green" id="add-product" class="btn btn-primary btn-sm add-product">
+                            <td style="border:none;">
+                              <?php if($order_status == 1){}else{ ?>
+                              <button type="button" style="background-color:green" id="add-product" class="btn btn-primary btn-sm add-product">
                             <i class="fa fa-plus-circle"></i>&nbsp;Add Products
-                          </button></td>
-                            <td colspan="3" style="text-align:right;border:none;"><button type="button" id="update-cart" class="btn btn-primary btn-sm">
+                          </button>
+                        <?php } ?>
+                        </td>
+                            <td colspan="3" style="text-align:right;border:none;">
+                              <?php if($order_status == 1){}else{ ?>
+                              <button type="button" id="update-cart" class="btn btn-primary btn-sm">
                               <i class="fa fa-dot-circle-o"></i>&nbsp;Update
-                            </button></td>
+                            </button>
+                          <?php } ?>
+                          </td>
                           </tr>
                         </tfoot>
                       </table >
@@ -131,14 +140,14 @@
                       <div class="row form-group">
                              <input type="hidden" name="grandtotal" id="grandtotal" value="<?php echo $subtotal; ?>" />
                              <input type="hidden" name="gst" id="gst"  />
-                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Discount</label><input type="number" id="chDiscount" name="discount" value="" placeholder="Discount" class="form-control"></div>
+                            <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Discount</label><input type="number" id="chDiscount" name="discount" value="<?php if($order_status == 1){echo $discount;} ?>" placeholder="Discount" class="form-control" <?php if($order_status == 1){echo "readonly";} ?>></div>
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">GST</label><input type="number" id="gstInput" name="gstInput" value="<?php echo array_sum($gst1); ?>" class="form-control" readonly></div>
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Total</label><input type="text" name="payable_amount" id="tot_amount" value="<?php echo array_sum($gst1)+$subtotal; ?>" class="form-control" readonly=""></div>
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Tax Type</label></div>
                             <div class="col-12 col-md-8">
-                            <select name="taxType" id="taxType" class="form-control" required="">
+                            <select name="taxType" id="taxType" class="form-control" <?php if($order_status == 1){echo"disabled";}else{echo "required";} ?>>
 															<option value="">Select Tax</option>
       													<option value="GST" <?php if($taxtype == "GST"){echo "selected";} ?>>CGST + SGST</option>
       													<option value="IGST" <?php if($taxtype == "IGST"){echo "selected";} ?>>IGST</option>
@@ -148,7 +157,7 @@
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Transport</label></div>
                               <div class="col-12 col-md-8">
-                                <select name="transportType" id="transportType" class="form-control" required>
+                                <select name="transportType" id="transportType" class="form-control" <?php if($order_status == 1){echo"disabled";}else{echo "required";} ?> >
                                     <option value="">Select Transport</option>
                                         <?php
                                             if(!empty($transport)){
@@ -163,9 +172,11 @@
                             </div>
                       </div>
                       <div class="card-footer" style="background-color:#95ecd4;">
+                        <?php if($order_status == 1){}else{ ?>
         								<button type="submit" id="payment-button" class="btn btn-primary btn-sm">
         								  <i class="fa fa-dot-circle-o"></i> Approve Order
         								</button>
+                      <?php } ?>
                         <a class="btn btn-danger btn-sm" href="<?php echo base_url('OrderRequest'); ?>">Cancel</a>
         							  </div>
                               </div>
