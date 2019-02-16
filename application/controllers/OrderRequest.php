@@ -96,14 +96,15 @@ class OrderRequest extends CI_Controller {
        $date = date('d-m-Y');
        $payableamount = $this->input->post('payable_amount');
        $result = $this->DataModel->editdistributor($dist_id);
-       $mobile = "91".$result[0]["number"];
+       $mobile = $this->input->post('number');  // "91".$result[0]["number"];
        $ch = curl_init('https://www.txtguru.in/imobile/api.php?');
  curl_setopt($ch, CURLOPT_POST, 1);
  curl_setopt($ch, CURLOPT_POSTFIELDS, "username=nisrochchemicals&password=13196274&source=NISROC&dmobile=$mobile&message=Your total bill amount on date: $date, invoice no: $invoiceId is of rs. $payableamount.
  Team Nisroch.");
  curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
  $data = curl_exec($ch);
-     redirect(base_url('OrderRequest'), 'refresh');
+     $message = $this->session->set_flashdata('message', 'Order successfully approved!');
+     redirect(base_url('OrderRequest'), 'refresh', $message);
      //$this->load->view('invoice', $data, 'refresh');
      }
    }

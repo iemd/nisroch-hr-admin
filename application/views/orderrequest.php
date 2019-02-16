@@ -11,9 +11,9 @@
                     <div class="card" style="background-color:#95ecd4;">
                         <div class="card-header">
                             <strong class="card-title">STAFF ORDER REQUESTS</strong>
+                            <h4 style="color:green;"><?php echo $this->session->flashdata('message'); ?></h4>
                         </div>
-						<?php echo $this->session->flashdata('message');  ?>
-                        <div class="card-body">
+					           <div class="card-body">
                   <table id="bootstrap-data-table" class="table table-striped table-bordered">
                     <thead>
                       <tr>

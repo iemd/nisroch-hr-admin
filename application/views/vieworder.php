@@ -79,7 +79,12 @@
                       					<td><input type="text" id="qty" name="qty[]" value="<?php echo $product['quantity']; ?>" size="1" maxlength="2"  class="form-control" required=""></td>
                                 <td><?php echo $product['base_price']; ?></td>
 
-                                <td><div id="delete-btn"><i class="fa fa-check" style="font-size:18px;color:green"></i></div></td>
+                                <td><div id="delete-btn">
+                                  <i class="fa fa-check" style="font-size:18px;color:green"></i>&nbsp;
+                                  <button type='button' id='delete' class='btn btn-danger btn-sm btnDelete'><i class='fa fa-trash'></i></button>
+
+                                </div>
+                              </td>
                       				</tr>
                               <?php $subtotal +=$product['base_price']*$product['quantity'];  ?>
                             <?php  } ?>
@@ -240,10 +245,13 @@
                 jQuery( "#gstInput").val(data);
                 jQuery( "#tot_amount").val(tot_amount);
                 if(tot_amount > current_limit){
-                  //jQuery('#payment-button').hide();
                   jQuery('#showing').show();
+                  jQuery('#add-product').hide();
+                  jQuery('#payment-button').hide();
                 }else{
                   jQuery('#showing').hide();
+                  jQuery('#add-product').show();
+                  jQuery('#payment-button').show();
                 }
                 //window.location.replace("<?php //echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
             }
@@ -272,6 +280,24 @@
 </script>
 <script type="text/javascript">
 jQuery(document).ready(function(){
+  var current_limit = jQuery('#current_limit').val();
+  var main = <?php echo $subtotal; ?>; //grandtotal
+  var disc = jQuery('#chDiscount').val();
+  var dec = (disc/100).toFixed(2); //its convert 10 into 0.10
+  var mult = main*dec; // gives the value for subtract from main value (subtotal)
+  var discont = main-mult;
+  //alert(discont);
+  jQuery('#tot_amount').val(discont);
+  if(discont > current_limit){
+    jQuery('#showing').show();
+    jQuery('#add-product').hide();
+    jQuery('#payment-button').hide();
+  }else{
+    jQuery('#showing').hide();
+    jQuery('#add-product').show();
+    jQuery('#payment-button').show();
+
+  }
   jQuery("#chDiscount").on("change paste keyup blur", function() {
     var current_limit = jQuery('#current_limit').val();
     var main = <?php echo $subtotal; ?>; //grandtotal
@@ -282,10 +308,14 @@ jQuery(document).ready(function(){
     //alert(discont);
     jQuery('#tot_amount').val(discont);
     if(discont > current_limit){
-    	//jQuery('#payment-button').hide();
     	jQuery('#showing').show();
+      jQuery('#add-product').hide();
+      jQuery('#payment-button').hide();
     }else{
     	jQuery('#showing').hide();
+      jQuery('#add-product').show();
+      jQuery('#payment-button').show();
+
     }
   });
 });
