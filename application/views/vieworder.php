@@ -15,11 +15,11 @@
                       <div class="card-body card-block">
                           <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Order ID</label></div>
-                            <div class="col-12 col-md-8"><input type="text" id="name" name="name" value="<?php echo $row['Invoice']; ?>" placeholder="Invoice ID" class="form-control"></div>
+                            <div class="col-12 col-md-8"><input type="text" id="Invoice" name="Invoice" value="<?php echo $row['Invoice']; ?>" placeholder="Invoice ID" class="form-control"></div>
                           </div>
 						          <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Date</label></div>
-                            <div class="col-12 col-md-8"><input type="text" id="BuyerCode" name="BuyerCode" value="<?php echo $row['date']; ?>" placeholder="Date" class="form-control" required=""></div>
+                            <div class="col-12 col-md-8"><input type="text" id="date" name="date" value="<?php echo $row['date']; ?>" placeholder="Date" class="form-control" required=""></div>
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Product Type</label></div>
@@ -28,7 +28,7 @@
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Dist. Name | Limit</label></div>
                             <div class="col-12 col-md-4"><input type="text" id="Distributor_id" name="Distributor_id" value="<?php echo $row['name']; ?>" placeholder="Distributor Name" class="form-control" required=""></div>
-                            <div class="col-12 col-md-4"><input type="text" id="Distributor_id" name="Distributor_id" value="<?php echo $row['current_limit']; ?>" placeholder="Current Limit" class="form-control" required=""></div>
+                            <div class="col-12 col-md-4"><input type="text" id="current_limit" name="current_limit" value="<?php echo $row['current_limit']; ?>" placeholder="Current Limit" class="form-control" required=""></div>
                       </div>
                       <div class="row form-group">
                             <div class="col col-md-4"><label for="text-input" class=" form-control-label">Mobile No.</label></div>
@@ -87,7 +87,7 @@
                         </tbody>
                         <tfoot>
                           <tr>
-                            <td style="border:none;">&nbsp;</td>
+                            <td style="border:none;"><span id="showing" style="color:red;"><b>Your total amount is exceed from current limit</b></span></td>
                             <td style="border:none;"><strong>Sub Total</strong></td>
                             <td style="border:none;"><strong id="subtotal"><?php echo $subtotal; ?></strong></td>
                             <td style="border:none;">&nbsp;</td>
@@ -124,6 +124,8 @@
                       </div>
 
                       <div class="row form-group">
+                             <input type="hidden" name="grandtotal" id="grandtotal" value="<?php echo $subtotal; ?>" />
+                             <input type="hidden" name="gst" id="gst"  />
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Discount</label><input type="number" id="chDiscount" name="discount" value="" placeholder="Discount" class="form-control"></div>
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">GST</label><input type="number" id="gstInput" name="gstInput" value="<?php echo array_sum($gst1); ?>" class="form-control" readonly></div>
                             <div class="col-12 col-md-4"><label for="text-input" class=" form-control-label">Total</label><input type="text" name="payable_amount" id="tot_amount" value="<?php echo array_sum($gst1)+$subtotal; ?>" class="form-control" readonly=""></div>
@@ -156,7 +158,7 @@
                             </div>
                       </div>
                       <div class="card-footer" style="background-color:#95ecd4;">
-        								<button type="submit" class="btn btn-primary btn-sm">
+        								<button type="submit" id="payment-button" class="btn btn-primary btn-sm">
         								  <i class="fa fa-dot-circle-o"></i> Approve Order
         								</button>
                         <a class="btn btn-danger btn-sm" href="<?php echo base_url('OrderRequest'); ?>">Cancel</a>
@@ -232,8 +234,18 @@
             data: {bill_id: bill_id, taxtype: taxtype},
             success: function(data){
                 //alert(data);
+                var subtotal = "<?php echo $subtotal; ?>";
+                var tot_amount = parseFloat(subtotal)+parseFloat(data);
+                var current_limit = jQuery('#current_limit').val();
                 jQuery( "#gstInput").val(data);
-                //window.location.replace("<?php echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
+                jQuery( "#tot_amount").val(tot_amount);
+                if(tot_amount > current_limit){
+                  //jQuery('#payment-button').hide();
+                  jQuery('#showing').show();
+                }else{
+                  jQuery('#showing').hide();
+                }
+                //window.location.replace("<?php //echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
             }
           });
      });
@@ -257,6 +269,26 @@
           });
      });
   } );
+</script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+  jQuery("#chDiscount").on("change paste keyup blur", function() {
+    var current_limit = jQuery('#current_limit').val();
+    var main = <?php echo $subtotal; ?>; //grandtotal
+    var disc = jQuery('#chDiscount').val();
+    var dec = (disc/100).toFixed(2); //its convert 10 into 0.10
+    var mult = main*dec; // gives the value for subtract from main value (subtotal)
+    var discont = main-mult;
+    //alert(discont);
+    jQuery('#tot_amount').val(discont);
+    if(discont > current_limit){
+    	//jQuery('#payment-button').hide();
+    	jQuery('#showing').show();
+    }else{
+    	jQuery('#showing').hide();
+    }
+  });
+});
 </script>
 </body>
 </html>

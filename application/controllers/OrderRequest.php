@@ -137,6 +137,10 @@ class OrderRequest extends CI_Controller {
           if($insert){
             $message = 'Cart updated successfully !';
             //echo $message;
+            $transport['transportType'] = '';
+            $taxtype['Billtaxtype'] = '' ;
+            $this->DataModel->update_billtransport($transport, $bill_id);
+            $this->DataModel->update_billtaxtype($taxtype, $bill_id);
           }
    	   }
     }
