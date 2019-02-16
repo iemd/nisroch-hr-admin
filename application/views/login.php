@@ -44,6 +44,9 @@
 
 					<br>
                         <div class="form-group">
+                          <h1 style="color:#343a40;text-align:center;">HR LOGIN</h1>
+                        </div>
+                        <div class="form-group">
                         <?php echo $this->session->flashdata('message'); ?>
                         </div>
                         <div class="form-group">
@@ -56,7 +59,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-success btn-flat m-b-30 m-t-30" style="background-color:#40ff00;">Sign in</button>
-
+                        <br/><br/><center><h6><i>Aytis Cloud Solution Pvt. Ltd.</i></h6></center>
 
                     </form>
                 </div>
