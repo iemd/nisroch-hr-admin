@@ -42,34 +42,69 @@ class OrderRequest extends CI_Controller {
      $this->load->view('common/header');
      $this->load->view('vieworder', $data);
    }
-   public function approveOrder($dist_id)
+   public function approveOrder($bill_id)
    {
+     $this->load->helper('num_helper');
+     //$insert['invoiceId'] = $this->session->userdata('invoiceData');
+     //$invoiceId = $insert['invoiceId'];
+     $invoiceId = $bill_id;
      $this->load->model('DataModel');
-     $data['name'] = $this->input->post('name');
-     $data['bcode'] = $this->input->post('BuyerCode');
-     $data['State'] = $this->input->post('State');
-     $data['City'] = $this->input->post('City');
-     $data['Pincode'] = $this->input->post('Pincode');
-     $data['DAddress'] = $this->input->post('DAddress');
-     $data['email'] = $this->input->post('email');
-     $data['number'] = $this->input->post('number');
-     $data['gst'] = $this->input->post('gst');
-     $data['pos'] = $this->input->post('pos');
-     $data['Destination'] = $this->input->post('Destination');
-     $data['pnumber'] = $this->input->post('pnumber');
-     $data['npp'] = $this->input->post('npp');
-     $data['nbp'] = $this->input->post('nbp');
-     $data['nppLimit'] = $this->input->post('nppLimit');
-     $data['nbpLimit'] = $this->input->post('nbpLimit');
-     $data['currentNpp'] = $this->input->post('nppLimit');
-     $data['currentNbp'] = $this->input->post('nbpLimit');
-     $data['status'] = 1;
-     $data['approved_by'] = 'HR';
+     //$data['getCategory'] = $this->DataModel->getCategory();
+     $data['editData'] = $this->DataModel->getData();
+     $payment['payment_status'] = "Done";
+     $payment['gst_mode'] = $this->input->post('taxType');
+     $payment['payable_amount'] = $this->input->post('payable_amount');
+     $payment['current_limit'] = $this->input->post('current_limit');
+     $dist_id = $this->input->post('Distributor_id');
+     $ptype = $this->input->post('ProductType');
+     if($ptype == "NPP"){
+       $limit['currentNpp'] = $payment['current_limit'] - $payment['payable_amount'];
+       $this->DataModel->update_limit($limit, $dist_id);
+     }else if($ptype == "NBP"){
+       $limit['currentNbp'] = $payment['current_limit'] - $payment['payable_amount'];
+       $this->DataModel->update_limit($limit, $dist_id);
+     }
 
-    $update = $this->DataModel->approvedistributor($dist_id, $data);
-     if($update){
-       $message = $this->session->set_flashdata('message', 'Approved successfully !');
-       redirect(base_url('DistributorRequest'), 'refresh');
+     $payment['grandtotal'] = $this->input->post('grandtotal');
+     $payment['gst'] = $this->input->post('gstInput');
+     $payment['discount'] = $this->input->post('discount');
+     $payment['pay_date'] = date('y-m-d');
+     date_default_timezone_set('Asia/Kolkata');
+     $currentDateTime=date('m/d/Y H:i:s');
+     $newDateTime = date('h:i A', strtotime($currentDateTime));
+     $payment['pay_time'] = $newDateTime;
+     $payment['order_status'] = 1;
+     $payment['approved_by'] = 'HR';
+         $data['getcart'] = $this->DataModel->getcart($invoiceId);
+     $payment = $this->DataModel->payment_update($payment, $invoiceId);
+     //print_r($data['editData']);die;
+     //$this->load->view('common/header');
+     $insert1['billid'] = $invoiceId;
+     $insert1['paymentType'] = "Debit";
+     $insert1['previousLimt'] = $this->input->post('current_limit');
+     $insert1['debitamount'] = $this->input->post('payable_amount');
+
+     $insert1['balance'] = $insert1['previousLimt'] - $insert1['debitamount'];
+     $insert1['user_balance'] = $insert1['balance'] - $insert1['previousLimt'];
+     $insert1['ledgerdate'] = date('Y/m/d');
+     $insert1['time'] = $newDateTime;
+     $insert1['dis_id'] = $dist_id;
+
+     if($payment > 0){
+       $this->db->insert('ledger',$insert1);
+       // SMS
+       $date = date('d-m-Y');
+       $payableamount = $this->input->post('payable_amount');
+       $result = $this->DataModel->editdistributor($dist_id);
+       $mobile = "91".$result[0]["number"];
+       $ch = curl_init('https://www.txtguru.in/imobile/api.php?');
+ curl_setopt($ch, CURLOPT_POST, 1);
+ curl_setopt($ch, CURLOPT_POSTFIELDS, "username=nisrochchemicals&password=13196274&source=NISROC&dmobile=$mobile&message=Your total bill amount on date: $date, invoice no: $invoiceId is of rs. $payableamount.
+ Team Nisroch.");
+ curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+ $data = curl_exec($ch);
+     redirect(base_url('OrderRequest'), 'refresh');
+     //$this->load->view('invoice', $data, 'refresh');
      }
    }
 
