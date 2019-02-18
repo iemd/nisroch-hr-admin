@@ -324,13 +324,16 @@ jQuery(document).ready(function(){
     var dec = (disc/100).toFixed(2); //its convert 10 into 0.10
     var mult = main*dec; // gives the value for subtract from main value (subtotal)
     var discont = main-mult;
+
     //alert(discont);
     if(disc == '' || disc == 0){
       var gst  = jQuery( "#gstInput").val();
-      var total = jQuery('#tot_amount').val();
-      var totamt = parseFloat(gst)+parseFloat(total);
+      var totamt = parseFloat(gst)+parseFloat(main);
+      jQuery('#tot_amount').val(totamt);
     }else{
-      jQuery('#tot_amount').val(discont);
+      var gst  = jQuery( "#gstInput").val();
+      var totamt = parseFloat(gst)+parseFloat(discont);
+      jQuery('#tot_amount').val(totamt);
 
     }
     if(discont > current_limit){
