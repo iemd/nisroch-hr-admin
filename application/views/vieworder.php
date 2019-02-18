@@ -283,7 +283,7 @@
             success: function(data){
                 //alert(data);
 
-                window.location.replace("<?php echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
+                //window.location.replace("<?php //echo base_url('OrderRequest/viewOrder/').$bill_id; ?>");
             }
           });
      });
