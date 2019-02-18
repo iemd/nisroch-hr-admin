@@ -251,8 +251,15 @@
             success: function(data){
                 //alert(data);
                 var subtotal = "<?php echo $subtotal; ?>";
-                var tot_amount = parseFloat(subtotal)+parseFloat(data);
+
+                var disc = jQuery('#chDiscount').val();
+                var dec = (disc/100).toFixed(2); //its convert 10 into 0.10
+                var mult = subtotal*dec; // gives the value for subtract from main value (subtotal)
+                var discont = subtotal-mult;
+
+                var tot_amount = parseFloat(discont)+parseFloat(data);
                 var current_limit = jQuery('#current_limit').val();
+
                 jQuery( "#gstInput").val(data);
                 jQuery( "#tot_amount").val(tot_amount);
                 if(tot_amount > current_limit){
@@ -312,12 +319,20 @@ jQuery(document).ready(function(){
   jQuery("#chDiscount").on("change paste keyup blur", function() {
     var current_limit = jQuery('#current_limit').val();
     var main = <?php echo $subtotal; ?>; //grandtotal
+
     var disc = jQuery('#chDiscount').val();
     var dec = (disc/100).toFixed(2); //its convert 10 into 0.10
     var mult = main*dec; // gives the value for subtract from main value (subtotal)
     var discont = main-mult;
     //alert(discont);
-    jQuery('#tot_amount').val(discont);
+    if(disc == '' || disc == 0){
+      var gst  = jQuery( "#gstInput").val();
+      var total = jQuery('#tot_amount').val();
+      var totamt = parseFloat(gst)+parseFloat(total);
+    }else{
+      jQuery('#tot_amount').val(discont);
+
+    }
     if(discont > current_limit){
     	jQuery('#showing').show();
       jQuery('#add-product').hide();
